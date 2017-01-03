@@ -1,0 +1,35 @@
+Source: libentitas
+Priority: optional
+Section: libs
+Maintainer: darkoverlordofdata <darkoverlordofdata@gmail.com>
+Build-Depends: build-essential, po-debconf, valac, libgee-0.8-dev, libglib2.0-dev, cmake, gettext, pkg-config, gcc, g++, make, intltool
+
+Package: libentitas
+Architecture: any
+Version: 0.0.1
+Depends: libgee-0.8-2, libglib2.0-0
+Description: ECS Library
+ ECS Library - lightweight ecs based on Entitas
+ .
+ This package contains the shared library
+
+Package: libentitas-dev
+Section: libdevel
+Architecture: any
+Version: 0.0.1
+Depends: libgee-0.8-2, libglib2.0-0
+Description: ECS Library
+ ECS Library - lightweight ecs based on Entitas
+ .
+ This package contains files needed if you wish to use the entitas library in your own programs.
+
+Package: libentitas-dbg
+Priority: extra
+Section: debug
+Architecture: any
+Version: 0.0.1
+Depends: libgee-0.8-2, libglib2.0-0
+Description: ECS Library
+ ECS Library - lightweight ecs based on Entitas
+ .
+ This package contains the debug symbols for the entitas library.

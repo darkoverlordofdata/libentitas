@@ -1,0 +1,54 @@
+### AutoVala Project ###
+autovala_version: 24
+project_name: libentitas
+vala_version: 0.22
+
+vala_library: src/libentitas
+version: 0.0.1
+namespace: entitas
+vala_check_package: gee-0.8
+*vala_check_package: glib-2.0
+*vala_check_package: gobject-2.0
+*vala_source: Entity.gs
+*vala_source: Events/ComponentReplaced.gs
+*vala_source: Events/EntityChanged.gs
+*vala_source: Events/EntityReleased.gs
+*vala_source: Events/GroupChanged.gs
+*vala_source: Events/GroupUpdated.gs
+*vala_source: Events/GroupsChanged.gs
+*vala_source: Events/WorldChanged.gs
+*vala_source: Exceptions.gs
+*vala_source: Group.gs
+*vala_source: Interfaces/IComponent.vala
+*vala_source: Interfaces/IMatcher.vala
+*vala_source: Interfaces/ISystem.vala
+*vala_source: Matcher.gs
+*vala_source: Version.gs
+*vala_source: World.gs
+*vala_source: entitas.vala
+
+
+*po: po
+
+*translate: genie src/Entity.gs
+*translate: genie src/Events/ComponentReplaced.gs
+*translate: genie src/Events/EntityChanged.gs
+*translate: genie src/Events/EntityReleased.gs
+*translate: genie src/Events/GroupChanged.gs
+*translate: genie src/Events/GroupUpdated.gs
+*translate: genie src/Events/GroupsChanged.gs
+*translate: genie src/Events/WorldChanged.gs
+*translate: genie src/Exceptions.gs
+*translate: genie src/Group.gs
+*translate: vala src/Interfaces/IComponent.vala
+*translate: vala src/Interfaces/IMatcher.vala
+*translate: vala src/Interfaces/ISystem.vala
+*translate: genie src/Matcher.gs
+*translate: genie src/Version.gs
+*translate: genie src/World.gs
+*translate: vala src/entitas.vala
+
+*data: data/local
+
+*doc: doc
+

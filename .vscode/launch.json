@@ -1,0 +1,13 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug",
+            "type": "lldb",
+            "request": "launch",
+            "program": "/bin/sh",
+            "cwd": "${workspaceRoot}/build",
+            "args": ["-c", "export LD_LIBRARY_PATH=.. && ./game"]
+        }
+    ]
+}

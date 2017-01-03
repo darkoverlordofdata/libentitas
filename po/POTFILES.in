@@ -1,0 +1,17 @@
+src/Entity.gs
+src/Events/ComponentReplaced.gs
+src/Events/EntityChanged.gs
+src/Events/EntityReleased.gs
+src/Events/GroupChanged.gs
+src/Events/GroupUpdated.gs
+src/Events/GroupsChanged.gs
+src/Events/WorldChanged.gs
+src/Exceptions.gs
+src/Group.gs
+src/Interfaces/IComponent.vala
+src/Interfaces/IMatcher.vala
+src/Interfaces/ISystem.vala
+src/Matcher.gs
+src/Version.gs
+src/World.gs
+src/entitas.vala

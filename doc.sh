@@ -1,0 +1,1 @@
+valadoc -b ./src -o ./doc

@@ -1,0 +1,3 @@
+# Hashes of file build rules.
+19a7d9106cd29458f35044af8b17a5ea src/Config.c
+8605c9d85ea747e1ee5aa52aded8e42b src/entitas_valac.stamp

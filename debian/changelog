@@ -1,0 +1,8 @@
+libentitas (0.0.1-elementary1) loki; urgency=low
+
+  * Changes made
+    - port of https://github.com/sschmid/Entitas-CSharp
+    - initial upload to lauchpad
+
+ -- bruce davidson <darkoverlordofdata@gmail.com>  Fri, 30 Dec 2016 13:00:18 -0800
+

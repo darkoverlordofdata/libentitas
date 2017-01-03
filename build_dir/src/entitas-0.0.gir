@@ -1,0 +1,2511 @@
+<?xml version="1.0"?>
+<repository version="1.2" xmlns="http://www.gtk.org/introspection/core/1.0" xmlns:c="http://www.gtk.org/introspection/c/1.0" xmlns:glib="http://www.gtk.org/introspection/glib/1.0">
+<include name="GObject" version="2.0"/>
+<include name="Gee" version="0.8"/>
+<include name="GLib" version="2.0"/>
+<package name="entitas"/>
+<c:include name="entitas.h"/>
+<namespace name="entitas" version="0.0" c:prefix="entitasConstants">
+	<constant name="DATADIR" c:identifier="ENTITAS_CONSTANTS_DATADIR" value="/usr/share">
+		<type name="utf8" c:type="const gchar*"/>
+	</constant>
+	<constant name="PKGDATADIR" c:identifier="ENTITAS_CONSTANTS_PKGDATADIR" value="/usr/share/libentitas">
+		<type name="utf8" c:type="const gchar*"/>
+	</constant>
+	<constant name="GETTEXT_PACKAGE" c:identifier="ENTITAS_CONSTANTS_GETTEXT_PACKAGE" value="libentitas">
+		<type name="utf8" c:type="const gchar*"/>
+	</constant>
+	<constant name="RELEASE_NAME" c:identifier="ENTITAS_CONSTANTS_RELEASE_NAME" value="libentitas">
+		<type name="utf8" c:type="const gchar*"/>
+	</constant>
+	<constant name="VERSION" c:identifier="ENTITAS_CONSTANTS_VERSION" value="0.0.1">
+		<type name="utf8" c:type="const gchar*"/>
+	</constant>
+</namespace>
+<c:include name="entitas.h"/>
+<namespace name="entitas" version="0.0" c:prefix="Entitas">
+	<enumeration name="GroupEventType" c:type="EntitasGroupEventType" glib:type-name="EntitasGroupEventType" glib:get-type="entitas_group_event_type_get_type">
+		<member name="onentityadded" c:identifier="ENTITAS_GROUP_EVENT_TYPE_OnEntityAdded" value="0"/>
+		<member name="onentityremoved" c:identifier="ENTITAS_GROUP_EVENT_TYPE_OnEntityRemoved" value="1"/>
+		<member name="onentityaddedorremoved" c:identifier="ENTITAS_GROUP_EVENT_TYPE_OnEntityAddedOrRemoved" value="2"/>
+	</enumeration>
+	<enumeration name="EcsException" c:type="EntitasEcsException" glib:error-domain="entitas_ecs_exception-quark">
+		<member name="entityisnotenabled" c:identifier="ENTITAS_ECS_EXCEPTION_EntityIsNotEnabled" value="0"/>
+		<member name="entityalreadyhascomponent" c:identifier="ENTITAS_ECS_EXCEPTION_EntityAlreadyHasComponent" value="1"/>
+		<member name="entitydoesnothavecomponent" c:identifier="ENTITAS_ECS_EXCEPTION_EntityDoesNotHaveComponent" value="2"/>
+		<member name="entityisalreadyreleased" c:identifier="ENTITAS_ECS_EXCEPTION_EntityIsAlreadyReleased" value="3"/>
+		<member name="singleentity" c:identifier="ENTITAS_ECS_EXCEPTION_SingleEntity" value="4"/>
+		<member name="matcher" c:identifier="ENTITAS_ECS_EXCEPTION_Matcher" value="5"/>
+		<member name="worlddoesnotcontainentity" c:identifier="ENTITAS_ECS_EXCEPTION_WorldDoesNotContainEntity" value="6"/>
+	</enumeration>
+	<class name="Entity" c:type="EntitasEntity" glib:type-name="EntitasEntity" glib:get-type="entitas_entity_get_type" glib:type-struct="EntityClass" parent="GObject.Object">
+		<field name="parent_instance">
+			<type name="GObject.Object" c:type="GObject"/>
+		</field>
+		<field name="priv">
+			<type name="EntityPrivate" c:type="EntitasEntityPrivate*"/>
+		</field>
+		<field name="entitas_entity_size">
+			<type name="gint" c:type="gint"/>
+		</field>
+		<field name="entitas_entity_first">
+			<type name="gboolean" c:type="gboolean"/>
+		</field>
+		<field name="entitas_entity_maxEntities">
+			<type name="gint" c:type="gint"/>
+		</field>
+		<field name="entitas_entity_incEntities">
+			<type name="gint" c:type="gint"/>
+		</field>
+		<field name="entitas_entity_db_index">
+			<type name="gint" c:type="gint"/>
+		</field>
+		<field name="db_id">
+			<type name="gint" c:type="gint"/>
+		</field>
+		<field name="ic">
+			<type name="gint" c:type="gint"/>
+		</field>
+		<constructor name="new" c:identifier="entitas_entity_new">
+			<return-value transfer-ownership="full">
+				<type name="Entitas.Entity" c:type="EntitasEntity*"/>
+			</return-value>
+			<parameters>
+				<parameter name="componentsEnum" transfer-ownership="none">
+					<array length="1">
+						<type name="utf8" c:type="gchar*"/>
+					</array>
+				</parameter>
+				<parameter name="componentsEnum_length1" transfer-ownership="none">
+					<type name="gint" c:type="gint"/>
+				</parameter>
+				<parameter name="totalComponents" transfer-ownership="none">
+					<type name="gint" c:type="gint"/>
+				</parameter>
+			</parameters>
+		</constructor>
+		<method name="initialize" c:identifier="entitas_entity_initialize">
+			<return-value transfer-ownership="none">
+				<type name="none"/>
+			</return-value>
+			<parameters>
+				<parameter name="name" transfer-ownership="none">
+					<type name="utf8" c:type="const gchar*"/>
+				</parameter>
+				<parameter name="id" transfer-ownership="none">
+					<type name="utf8" c:type="const gchar*"/>
+				</parameter>
+				<parameter name="creationIndex" transfer-ownership="none">
+					<type name="gint" c:type="gint"/>
+				</parameter>
+			</parameters>
+		</method>
+		<method name="addComponent" c:identifier="entitas_entity_addComponent" throws="1">
+			<return-value transfer-ownership="full">
+				<type name="Entitas.Entity" c:type="EntitasEntity*"/>
+			</return-value>
+			<parameters>
+				<parameter name="index" transfer-ownership="none">
+					<type name="gint" c:type="gint"/>
+				</parameter>
+				<parameter name="component" transfer-ownership="none">
+					<type name="Entitas.IComponent" c:type="EntitasIComponent*"/>
+				</parameter>
+			</parameters>
+		</method>
+		<method name="removeComponent" c:identifier="entitas_entity_removeComponent" throws="1">
+			<return-value transfer-ownership="full">
+				<type name="Entitas.Entity" c:type="EntitasEntity*"/>
+			</return-value>
+			<parameters>
+				<parameter name="index" transfer-ownership="none">
+					<type name="gint" c:type="gint"/>
+				</parameter>
+			</parameters>
+		</method>
+		<method name="replaceComponent" c:identifier="entitas_entity_replaceComponent" throws="1">
+			<return-value transfer-ownership="full">
+				<type name="Entitas.Entity" c:type="EntitasEntity*"/>
+			</return-value>
+			<parameters>
+				<parameter name="index" transfer-ownership="none">
+					<type name="gint" c:type="gint"/>
+				</parameter>
+				<parameter name="component" transfer-ownership="none">
+					<type name="Entitas.IComponent" c:type="EntitasIComponent*"/>
+				</parameter>
+			</parameters>
+		</method>
+		<method name="getComponent" c:identifier="entitas_entity_getComponent" throws="1">
+			<return-value transfer-ownership="none">
+				<type name="Entitas.IComponent" c:type="EntitasIComponent*"/>
+			</return-value>
+			<parameters>
+				<parameter name="index" transfer-ownership="none">
+					<type name="gint" c:type="gint"/>
+				</parameter>
+			</parameters>
+		</method>
+		<method name="getComponents" c:identifier="entitas_entity_getComponents">
+			<return-value transfer-ownership="full">
+				<array length="0">
+					<type name="Entitas.IComponent" c:type="EntitasIComponent*"/>
+				</array>
+			</return-value>
+			<parameters>
+				<parameter name="result_length1" direction="out" transfer-ownership="none">
+					<type name="gint" c:type="gint*"/>
+				</parameter>
+			</parameters>
+		</method>
+		<method name="getComponentIndices" c:identifier="entitas_entity_getComponentIndices">
+			<return-value transfer-ownership="full">
+				<array length="0">
+					<type name="gint" c:type="gint"/>
+				</array>
+			</return-value>
+			<parameters>
+				<parameter name="result_length1" direction="out" transfer-ownership="none">
+					<type name="gint" c:type="gint*"/>
+				</parameter>
+			</parameters>
+		</method>
+		<method name="hasComponent" c:identifier="entitas_entity_hasComponent">
+			<return-value transfer-ownership="full">
+				<type name="gboolean" c:type="gboolean"/>
+			</return-value>
+			<parameters>
+				<parameter name="index" transfer-ownership="none">
+					<type name="gint" c:type="gint"/>
+				</parameter>
+			</parameters>
+		</method>
+		<method name="hasComponents" c:identifier="entitas_entity_hasComponents">
+			<return-value transfer-ownership="full">
+				<type name="gboolean" c:type="gboolean"/>
+			</return-value>
+			<parameters>
+				<parameter name="indices" transfer-ownership="none">
+					<array length="1">
+						<type name="gint" c:type="gint"/>
+					</array>
+				</parameter>
+				<parameter name="indices_length1" transfer-ownership="none">
+					<type name="gint" c:type="gint"/>
+				</parameter>
+			</parameters>
+		</method>
+		<method name="hasAnyComponent" c:identifier="entitas_entity_hasAnyComponent">
+			<return-value transfer-ownership="full">
+				<type name="gboolean" c:type="gboolean"/>
+			</return-value>
+			<parameters>
+				<parameter name="indices" transfer-ownership="none">
+					<array length="1">
+						<type name="gint" c:type="gint"/>
+					</array>
+				</parameter>
+				<parameter name="indices_length1" transfer-ownership="none">
+					<type name="gint" c:type="gint"/>
+				</parameter>
+			</parameters>
+		</method>
+		<method name="removeAllComponents" c:identifier="entitas_entity_removeAllComponents">
+			<return-value transfer-ownership="none">
+				<type name="none"/>
+			</return-value>
+		</method>
+		<method name="destroy" c:identifier="entitas_entity_destroy">
+			<return-value transfer-ownership="none">
+				<type name="none"/>
+			</return-value>
+		</method>
+		<method name="toString" c:identifier="entitas_entity_toString">
+			<return-value transfer-ownership="full">
+				<type name="utf8" c:type="gchar*"/>
+			</return-value>
+		</method>
+		<method name="addRef" c:identifier="entitas_entity_addRef">
+			<return-value transfer-ownership="full">
+				<type name="Entitas.Entity" c:type="EntitasEntity*"/>
+			</return-value>
+		</method>
+		<method name="release" c:identifier="entitas_entity_release" throws="1">
+			<return-value transfer-ownership="none">
+				<type name="none"/>
+			</return-value>
+		</method>
+		<property name="creationIndex">
+			<type name="gint" c:type="gint"/>
+		</property>
+		<method name="get_creationIndex" c:identifier="entitas_entity_get_creationIndex">
+			<return-value transfer-ownership="none">
+				<type name="gint" c:type="gint"/>
+			</return-value>
+		</method>
+		<property name="name">
+			<type name="utf8" c:type="gchar*"/>
+		</property>
+		<method name="get_name" c:identifier="entitas_entity_get_name">
+			<return-value transfer-ownership="none">
+				<type name="utf8" c:type="const gchar*"/>
+			</return-value>
+		</method>
+		<property name="id">
+			<type name="utf8" c:type="gchar*"/>
+		</property>
+		<method name="get_id" c:identifier="entitas_entity_get_id">
+			<return-value transfer-ownership="none">
+				<type name="utf8" c:type="const gchar*"/>
+			</return-value>
+		</method>
+		<property name="isEnabled">
+			<type name="gboolean" c:type="gboolean"/>
+		</property>
+		<method name="get_isEnabled" c:identifier="entitas_entity_get_isEnabled">
+			<return-value transfer-ownership="none">
+				<type name="gboolean" c:type="gboolean"/>
+			</return-value>
+		</method>
+		<property name="refCount">
+			<type name="gint" c:type="gint"/>
+		</property>
+		<method name="get_refCount" c:identifier="entitas_entity_get_refCount">
+			<return-value transfer-ownership="none">
+				<type name="gint" c:type="gint"/>
+			</return-value>
+		</method>
+		<property name="onEntityReleased">
+			<type name="Entitas.EntityReleased" c:type="EntitasEntityReleased*"/>
+		</property>
+		<method name="get_onEntityReleased" c:identifier="entitas_entity_get_onEntityReleased">
+			<return-value transfer-ownership="none">
+				<type name="Entitas.EntityReleased" c:type="EntitasEntityReleased*"/>
+			</return-value>
+		</method>
+		<property name="onComponentAdded">
+			<type name="Entitas.EntityChanged" c:type="EntitasEntityChanged*"/>
+		</property>
+		<method name="get_onComponentAdded" c:identifier="entitas_entity_get_onComponentAdded">
+			<return-value transfer-ownership="none">
+				<type name="Entitas.EntityChanged" c:type="EntitasEntityChanged*"/>
+			</return-value>
+		</method>
+		<property name="onComponentRemoved">
+			<type name="Entitas.EntityChanged" c:type="EntitasEntityChanged*"/>
+		</property>
+		<method name="get_onComponentRemoved" c:identifier="entitas_entity_get_onComponentRemoved">
+			<return-value transfer-ownership="none">
+				<type name="Entitas.EntityChanged" c:type="EntitasEntityChanged*"/>
+			</return-value>
+		</method>
+		<property name="onComponentReplaced">
+			<type name="Entitas.ComponentReplaced" c:type="EntitasComponentReplaced*"/>
+		</property>
+		<method name="get_onComponentReplaced" c:identifier="entitas_entity_get_onComponentReplaced">
+			<return-value transfer-ownership="none">
+				<type name="Entitas.ComponentReplaced" c:type="EntitasComponentReplaced*"/>
+			</return-value>
+		</method>
+	</class>
+	<record name="EntityClass" c:type="EntitasEntityClass" glib:is-gtype-struct-for="Entity">
+		<field name="parent_class">
+			<type name="GObject.ObjectClass" c:type="GObjectClass"/>
+		</field>
+	</record>
+	<record name="EntityPrivate" c:type="EntitasEntityPrivate" disguised="1"/>
+	<class name="ComponentReplaced" c:type="EntitasComponentReplaced" glib:type-name="EntitasComponentReplaced" glib:get-type="entitas_component_replaced_get_type" glib:type-struct="ComponentReplacedClass" parent="GObject.Object">
+		<field name="parent_instance">
+			<type name="GObject.Object" c:type="GObject"/>
+		</field>
+		<field name="priv">
+			<type name="ComponentReplacedPrivate" c:type="EntitasComponentReplacedPrivate*"/>
+		</field>
+		<method name="add" c:identifier="entitas_component_replaced_add">
+			<return-value transfer-ownership="none">
+				<type name="none"/>
+			</return-value>
+			<parameters>
+				<parameter name="event" transfer-ownership="none" closure="1" scope="call">
+					<type name="Entitas.OnComponentReplaced" c:type="EntitasOnComponentReplaced"/>
+				</parameter>
+				<parameter name="event_target" transfer-ownership="none" allow-none="1">
+					<type name="gpointer" c:type="void*"/>
+				</parameter>
+			</parameters>
+		</method>
+		<method name="remove" c:identifier="entitas_component_replaced_remove">
+			<return-value transfer-ownership="none">
+				<type name="none"/>
+			</return-value>
+			<parameters>
+				<parameter name="event" transfer-ownership="none" closure="1" scope="call">
+					<type name="Entitas.OnComponentReplaced" c:type="EntitasOnComponentReplaced"/>
+				</parameter>
+				<parameter name="event_target" transfer-ownership="none" allow-none="1">
+					<type name="gpointer" c:type="void*"/>
+				</parameter>
+			</parameters>
+		</method>
+		<method name="clear" c:identifier="entitas_component_replaced_clear">
+			<return-value transfer-ownership="none">
+				<type name="none"/>
+			</return-value>
+		</method>
+		<method name="dispatch" c:identifier="entitas_component_replaced_dispatch">
+			<return-value transfer-ownership="none">
+				<type name="none"/>
+			</return-value>
+			<parameters>
+				<parameter name="e" transfer-ownership="none">
+					<type name="Entitas.Entity" c:type="EntitasEntity*"/>
+				</parameter>
+				<parameter name="index" transfer-ownership="none">
+					<type name="gint" c:type="gint"/>
+				</parameter>
+				<parameter name="component" transfer-ownership="none">
+					<type name="Entitas.IComponent" c:type="EntitasIComponent*"/>
+				</parameter>
+				<parameter name="replacement" transfer-ownership="none">
+					<type name="Entitas.IComponent" c:type="EntitasIComponent*"/>
+				</parameter>
+			</parameters>
+		</method>
+		<constructor name="new" c:identifier="entitas_component_replaced_new">
+			<return-value transfer-ownership="full">
+				<type name="Entitas.ComponentReplaced" c:type="EntitasComponentReplaced*"/>
+			</return-value>
+		</constructor>
+	</class>
+	<record name="ComponentReplacedClass" c:type="EntitasComponentReplacedClass" glib:is-gtype-struct-for="ComponentReplaced">
+		<field name="parent_class">
+			<type name="GObject.ObjectClass" c:type="GObjectClass"/>
+		</field>
+	</record>
+	<record name="ComponentReplacedPrivate" c:type="EntitasComponentReplacedPrivate" disguised="1"/>
+	<class name="ComponentReplacedListener" c:type="EntitasComponentReplacedListener" glib:type-name="EntitasComponentReplacedListener" glib:get-type="entitas_component_replaced_listener_get_type" glib:type-struct="ComponentReplacedListenerClass" parent="GObject.Object">
+		<field name="parent_instance">
+			<type name="GObject.Object" c:type="GObject"/>
+		</field>
+		<field name="priv">
+			<type name="ComponentReplacedListenerPrivate" c:type="EntitasComponentReplacedListenerPrivate*"/>
+		</field>
+		<constructor name="new" c:identifier="entitas_component_replaced_listener_new">
+			<return-value transfer-ownership="full">
+				<type name="Entitas.ComponentReplacedListener" c:type="EntitasComponentReplacedListener*"/>
+			</return-value>
+			<parameters>
+				<parameter name="event" transfer-ownership="none" closure="1" scope="call">
+					<type name="Entitas.OnComponentReplaced" c:type="EntitasOnComponentReplaced"/>
+				</parameter>
+				<parameter name="event_target" transfer-ownership="none" allow-none="1">
+					<type name="gpointer" c:type="void*"/>
+				</parameter>
+			</parameters>
+		</constructor>
+		<property name="event" writable="1">
+			<type name="Entitas.OnComponentReplaced" c:type="EntitasOnComponentReplaced"/>
+		</property>
+		<method name="get_event" c:identifier="entitas_component_replaced_listener_get_event">
+			<return-value transfer-ownership="none" closure="0" scope="call">
+				<type name="Entitas.OnComponentReplaced" c:type="EntitasOnComponentReplaced"/>
+			</return-value>
+			<parameters>
+				<parameter name="result_target" direction="out" transfer-ownership="none" allow-none="1">
+					<type name="gpointer" c:type="void*"/>
+				</parameter>
+			</parameters>
+		</method>
+		<method name="set_event" c:identifier="entitas_component_replaced_listener_set_event">
+			<return-value transfer-ownership="none">
+				<type name="none"/>
+			</return-value>
+			<parameters>
+				<parameter name="value" transfer-ownership="none" closure="1" scope="call">
+					<type name="Entitas.OnComponentReplaced" c:type="EntitasOnComponentReplaced"/>
+				</parameter>
+				<parameter name="value_target" transfer-ownership="none" allow-none="1">
+					<type name="gpointer" c:type="void*"/>
+				</parameter>
+			</parameters>
+		</method>
+	</class>
+	<record name="ComponentReplacedListenerClass" c:type="EntitasComponentReplacedListenerClass" glib:is-gtype-struct-for="Listener">
+		<field name="parent_class">
+			<type name="GObject.ObjectClass" c:type="GObjectClass"/>
+		</field>
+	</record>
+	<record name="ComponentReplacedListenerPrivate" c:type="EntitasComponentReplacedListenerPrivate" disguised="1"/>
+	<class name="EntityChanged" c:type="EntitasEntityChanged" glib:type-name="EntitasEntityChanged" glib:get-type="entitas_entity_changed_get_type" glib:type-struct="EntityChangedClass" parent="GObject.Object">
+		<field name="parent_instance">
+			<type name="GObject.Object" c:type="GObject"/>
+		</field>
+		<field name="priv">
+			<type name="EntityChangedPrivate" c:type="EntitasEntityChangedPrivate*"/>
+		</field>
+		<method name="add" c:identifier="entitas_entity_changed_add">
+			<return-value transfer-ownership="none">
+				<type name="none"/>
+			</return-value>
+			<parameters>
+				<parameter name="event" transfer-ownership="none" closure="1" scope="call">
+					<type name="Entitas.OnEntityChanged" c:type="EntitasOnEntityChanged"/>
+				</parameter>
+				<parameter name="event_target" transfer-ownership="none" allow-none="1">
+					<type name="gpointer" c:type="void*"/>
+				</parameter>
+			</parameters>
+		</method>
+		<method name="remove" c:identifier="entitas_entity_changed_remove">
+			<return-value transfer-ownership="none">
+				<type name="none"/>
+			</return-value>
+			<parameters>
+				<parameter name="event" transfer-ownership="none" closure="1" scope="call">
+					<type name="Entitas.OnEntityChanged" c:type="EntitasOnEntityChanged"/>
+				</parameter>
+				<parameter name="event_target" transfer-ownership="none" allow-none="1">
+					<type name="gpointer" c:type="void*"/>
+				</parameter>
+			</parameters>
+		</method>
+		<method name="clear" c:identifier="entitas_entity_changed_clear">
+			<return-value transfer-ownership="none">
+				<type name="none"/>
+			</return-value>
+		</method>
+		<method name="dispatch" c:identifier="entitas_entity_changed_dispatch">
+			<return-value transfer-ownership="none">
+				<type name="none"/>
+			</return-value>
+			<parameters>
+				<parameter name="e" transfer-ownership="none">
+					<type name="Entitas.Entity" c:type="EntitasEntity*"/>
+				</parameter>
+				<parameter name="index" transfer-ownership="none">
+					<type name="gint" c:type="gint"/>
+				</parameter>
+				<parameter name="component" transfer-ownership="none">
+					<type name="Entitas.IComponent" c:type="EntitasIComponent*"/>
+				</parameter>
+			</parameters>
+		</method>
+		<constructor name="new" c:identifier="entitas_entity_changed_new">
+			<return-value transfer-ownership="full">
+				<type name="Entitas.EntityChanged" c:type="EntitasEntityChanged*"/>
+			</return-value>
+		</constructor>
+	</class>
+	<record name="EntityChangedClass" c:type="EntitasEntityChangedClass" glib:is-gtype-struct-for="EntityChanged">
+		<field name="parent_class">
+			<type name="GObject.ObjectClass" c:type="GObjectClass"/>
+		</field>
+	</record>
+	<record name="EntityChangedPrivate" c:type="EntitasEntityChangedPrivate" disguised="1"/>
+	<class name="EntityChangedListener" c:type="EntitasEntityChangedListener" glib:type-name="EntitasEntityChangedListener" glib:get-type="entitas_entity_changed_listener_get_type" glib:type-struct="EntityChangedListenerClass" parent="GObject.Object">
+		<field name="parent_instance">
+			<type name="GObject.Object" c:type="GObject"/>
+		</field>
+		<field name="priv">
+			<type name="EntityChangedListenerPrivate" c:type="EntitasEntityChangedListenerPrivate*"/>
+		</field>
+		<constructor name="new" c:identifier="entitas_entity_changed_listener_new">
+			<return-value transfer-ownership="full">
+				<type name="Entitas.EntityChangedListener" c:type="EntitasEntityChangedListener*"/>
+			</return-value>
+			<parameters>
+				<parameter name="event" transfer-ownership="none" closure="1" scope="call">
+					<type name="Entitas.OnEntityChanged" c:type="EntitasOnEntityChanged"/>
+				</parameter>
+				<parameter name="event_target" transfer-ownership="none" allow-none="1">
+					<type name="gpointer" c:type="void*"/>
+				</parameter>
+			</parameters>
+		</constructor>
+		<property name="event" writable="1">
+			<type name="Entitas.OnEntityChanged" c:type="EntitasOnEntityChanged"/>
+		</property>
+		<method name="get_event" c:identifier="entitas_entity_changed_listener_get_event">
+			<return-value transfer-ownership="none" closure="0" scope="call">
+				<type name="Entitas.OnEntityChanged" c:type="EntitasOnEntityChanged"/>
+			</return-value>
+			<parameters>
+				<parameter name="result_target" direction="out" transfer-ownership="none" allow-none="1">
+					<type name="gpointer" c:type="void*"/>
+				</parameter>
+			</parameters>
+		</method>
+		<method name="set_event" c:identifier="entitas_entity_changed_listener_set_event">
+			<return-value transfer-ownership="none">
+				<type name="none"/>
+			</return-value>
+			<parameters>
+				<parameter name="value" transfer-ownership="none" closure="1" scope="call">
+					<type name="Entitas.OnEntityChanged" c:type="EntitasOnEntityChanged"/>
+				</parameter>
+				<parameter name="value_target" transfer-ownership="none" allow-none="1">
+					<type name="gpointer" c:type="void*"/>
+				</parameter>
+			</parameters>
+		</method>
+	</class>
+	<record name="EntityChangedListenerClass" c:type="EntitasEntityChangedListenerClass" glib:is-gtype-struct-for="Listener">
+		<field name="parent_class">
+			<type name="GObject.ObjectClass" c:type="GObjectClass"/>
+		</field>
+	</record>
+	<record name="EntityChangedListenerPrivate" c:type="EntitasEntityChangedListenerPrivate" disguised="1"/>
+	<class name="EntityReleased" c:type="EntitasEntityReleased" glib:type-name="EntitasEntityReleased" glib:get-type="entitas_entity_released_get_type" glib:type-struct="EntityReleasedClass" parent="GObject.Object">
+		<field name="parent_instance">
+			<type name="GObject.Object" c:type="GObject"/>
+		</field>
+		<field name="priv">
+			<type name="EntityReleasedPrivate" c:type="EntitasEntityReleasedPrivate*"/>
+		</field>
+		<method name="add" c:identifier="entitas_entity_released_add">
+			<return-value transfer-ownership="none">
+				<type name="none"/>
+			</return-value>
+			<parameters>
+				<parameter name="event" transfer-ownership="none" closure="1" scope="call">
+					<type name="Entitas.OnEntityReleased" c:type="EntitasOnEntityReleased"/>
+				</parameter>
+				<parameter name="event_target" transfer-ownership="none" allow-none="1">
+					<type name="gpointer" c:type="void*"/>
+				</parameter>
+			</parameters>
+		</method>
+		<method name="remove" c:identifier="entitas_entity_released_remove">
+			<return-value transfer-ownership="none">
+				<type name="none"/>
+			</return-value>
+			<parameters>
+				<parameter name="event" transfer-ownership="none" closure="1" scope="call">
+					<type name="Entitas.OnEntityReleased" c:type="EntitasOnEntityReleased"/>
+				</parameter>
+				<parameter name="event_target" transfer-ownership="none" allow-none="1">
+					<type name="gpointer" c:type="void*"/>
+				</parameter>
+			</parameters>
+		</method>
+		<method name="clear" c:identifier="entitas_entity_released_clear">
+			<return-value transfer-ownership="none">
+				<type name="none"/>
+			</return-value>
+		</method>
+		<method name="dispatch" c:identifier="entitas_entity_released_dispatch">
+			<return-value transfer-ownership="none">
+				<type name="none"/>
+			</return-value>
+			<parameters>
+				<parameter name="e" transfer-ownership="none">
+					<type name="Entitas.Entity" c:type="EntitasEntity*"/>
+				</parameter>
+			</parameters>
+		</method>
+		<constructor name="new" c:identifier="entitas_entity_released_new">
+			<return-value transfer-ownership="full">
+				<type name="Entitas.EntityReleased" c:type="EntitasEntityReleased*"/>
+			</return-value>
+		</constructor>
+	</class>
+	<record name="EntityReleasedClass" c:type="EntitasEntityReleasedClass" glib:is-gtype-struct-for="EntityReleased">
+		<field name="parent_class">
+			<type name="GObject.ObjectClass" c:type="GObjectClass"/>
+		</field>
+	</record>
+	<record name="EntityReleasedPrivate" c:type="EntitasEntityReleasedPrivate" disguised="1"/>
+	<class name="EntityReleasedListener" c:type="EntitasEntityReleasedListener" glib:type-name="EntitasEntityReleasedListener" glib:get-type="entitas_entity_released_listener_get_type" glib:type-struct="EntityReleasedListenerClass" parent="GObject.Object">
+		<field name="parent_instance">
+			<type name="GObject.Object" c:type="GObject"/>
+		</field>
+		<field name="priv">
+			<type name="EntityReleasedListenerPrivate" c:type="EntitasEntityReleasedListenerPrivate*"/>
+		</field>
+		<constructor name="new" c:identifier="entitas_entity_released_listener_new">
+			<return-value transfer-ownership="full">
+				<type name="Entitas.EntityReleasedListener" c:type="EntitasEntityReleasedListener*"/>
+			</return-value>
+			<parameters>
+				<parameter name="event" transfer-ownership="none" closure="1" scope="call">
+					<type name="Entitas.OnEntityReleased" c:type="EntitasOnEntityReleased"/>
+				</parameter>
+				<parameter name="event_target" transfer-ownership="none" allow-none="1">
+					<type name="gpointer" c:type="void*"/>
+				</parameter>
+			</parameters>
+		</constructor>
+		<property name="event" writable="1">
+			<type name="Entitas.OnEntityReleased" c:type="EntitasOnEntityReleased"/>
+		</property>
+		<method name="get_event" c:identifier="entitas_entity_released_listener_get_event">
+			<return-value transfer-ownership="none" closure="0" scope="call">
+				<type name="Entitas.OnEntityReleased" c:type="EntitasOnEntityReleased"/>
+			</return-value>
+			<parameters>
+				<parameter name="result_target" direction="out" transfer-ownership="none" allow-none="1">
+					<type name="gpointer" c:type="void*"/>
+				</parameter>
+			</parameters>
+		</method>
+		<method name="set_event" c:identifier="entitas_entity_released_listener_set_event">
+			<return-value transfer-ownership="none">
+				<type name="none"/>
+			</return-value>
+			<parameters>
+				<parameter name="value" transfer-ownership="none" closure="1" scope="call">
+					<type name="Entitas.OnEntityReleased" c:type="EntitasOnEntityReleased"/>
+				</parameter>
+				<parameter name="value_target" transfer-ownership="none" allow-none="1">
+					<type name="gpointer" c:type="void*"/>
+				</parameter>
+			</parameters>
+		</method>
+	</class>
+	<record name="EntityReleasedListenerClass" c:type="EntitasEntityReleasedListenerClass" glib:is-gtype-struct-for="Listener">
+		<field name="parent_class">
+			<type name="GObject.ObjectClass" c:type="GObjectClass"/>
+		</field>
+	</record>
+	<record name="EntityReleasedListenerPrivate" c:type="EntitasEntityReleasedListenerPrivate" disguised="1"/>
+	<class name="GroupChanged" c:type="EntitasGroupChanged" glib:type-name="EntitasGroupChanged" glib:get-type="entitas_group_changed_get_type" glib:type-struct="GroupChangedClass" parent="GObject.Object">
+		<field name="parent_instance">
+			<type name="GObject.Object" c:type="GObject"/>
+		</field>
+		<field name="priv">
+			<type name="GroupChangedPrivate" c:type="EntitasGroupChangedPrivate*"/>
+		</field>
+		<method name="add" c:identifier="entitas_group_changed_add">
+			<return-value transfer-ownership="none">
+				<type name="none"/>
+			</return-value>
+			<parameters>
+				<parameter name="event" transfer-ownership="none" closure="1" scope="call">
+					<type name="Entitas.OnGroupChanged" c:type="EntitasOnGroupChanged"/>
+				</parameter>
+				<parameter name="event_target" transfer-ownership="none" allow-none="1">
+					<type name="gpointer" c:type="void*"/>
+				</parameter>
+			</parameters>
+		</method>
+		<method name="remove" c:identifier="entitas_group_changed_remove">
+			<return-value transfer-ownership="none">
+				<type name="none"/>
+			</return-value>
+			<parameters>
+				<parameter name="event" transfer-ownership="none" closure="1" scope="call">
+					<type name="Entitas.OnGroupChanged" c:type="EntitasOnGroupChanged"/>
+				</parameter>
+				<parameter name="event_target" transfer-ownership="none" allow-none="1">
+					<type name="gpointer" c:type="void*"/>
+				</parameter>
+			</parameters>
+		</method>
+		<method name="clear" c:identifier="entitas_group_changed_clear">
+			<return-value transfer-ownership="none">
+				<type name="none"/>
+			</return-value>
+		</method>
+		<method name="dispatch" c:identifier="entitas_group_changed_dispatch">
+			<return-value transfer-ownership="none">
+				<type name="none"/>
+			</return-value>
+			<parameters>
+				<parameter name="g" transfer-ownership="none">
+					<type name="Entitas.Group" c:type="EntitasGroup*"/>
+				</parameter>
+				<parameter name="e" transfer-ownership="none">
+					<type name="Entitas.Entity" c:type="EntitasEntity*"/>
+				</parameter>
+				<parameter name="i" transfer-ownership="none">
+					<type name="gint" c:type="gint"/>
+				</parameter>
+				<parameter name="c" transfer-ownership="none">
+					<type name="Entitas.IComponent" c:type="EntitasIComponent*"/>
+				</parameter>
+			</parameters>
+		</method>
+		<constructor name="new" c:identifier="entitas_group_changed_new">
+			<return-value transfer-ownership="full">
+				<type name="Entitas.GroupChanged" c:type="EntitasGroupChanged*"/>
+			</return-value>
+		</constructor>
+	</class>
+	<record name="GroupChangedClass" c:type="EntitasGroupChangedClass" glib:is-gtype-struct-for="GroupChanged">
+		<field name="parent_class">
+			<type name="GObject.ObjectClass" c:type="GObjectClass"/>
+		</field>
+	</record>
+	<record name="GroupChangedPrivate" c:type="EntitasGroupChangedPrivate" disguised="1"/>
+	<class name="GroupChangedListener" c:type="EntitasGroupChangedListener" glib:type-name="EntitasGroupChangedListener" glib:get-type="entitas_group_changed_listener_get_type" glib:type-struct="GroupChangedListenerClass" parent="GObject.Object">
+		<field name="parent_instance">
+			<type name="GObject.Object" c:type="GObject"/>
+		</field>
+		<field name="priv">
+			<type name="GroupChangedListenerPrivate" c:type="EntitasGroupChangedListenerPrivate*"/>
+		</field>
+		<constructor name="new" c:identifier="entitas_group_changed_listener_new">
+			<return-value transfer-ownership="full">
+				<type name="Entitas.GroupChangedListener" c:type="EntitasGroupChangedListener*"/>
+			</return-value>
+			<parameters>
+				<parameter name="event" transfer-ownership="none" closure="1" scope="call">
+					<type name="Entitas.OnGroupChanged" c:type="EntitasOnGroupChanged"/>
+				</parameter>
+				<parameter name="event_target" transfer-ownership="none" allow-none="1">
+					<type name="gpointer" c:type="void*"/>
+				</parameter>
+			</parameters>
+		</constructor>
+		<property name="event" writable="1">
+			<type name="Entitas.OnGroupChanged" c:type="EntitasOnGroupChanged"/>
+		</property>
+		<method name="get_event" c:identifier="entitas_group_changed_listener_get_event">
+			<return-value transfer-ownership="none" closure="0" scope="call">
+				<type name="Entitas.OnGroupChanged" c:type="EntitasOnGroupChanged"/>
+			</return-value>
+			<parameters>
+				<parameter name="result_target" direction="out" transfer-ownership="none" allow-none="1">
+					<type name="gpointer" c:type="void*"/>
+				</parameter>
+			</parameters>
+		</method>
+		<method name="set_event" c:identifier="entitas_group_changed_listener_set_event">
+			<return-value transfer-ownership="none">
+				<type name="none"/>
+			</return-value>
+			<parameters>
+				<parameter name="value" transfer-ownership="none" closure="1" scope="call">
+					<type name="Entitas.OnGroupChanged" c:type="EntitasOnGroupChanged"/>
+				</parameter>
+				<parameter name="value_target" transfer-ownership="none" allow-none="1">
+					<type name="gpointer" c:type="void*"/>
+				</parameter>
+			</parameters>
+		</method>
+	</class>
+	<record name="GroupChangedListenerClass" c:type="EntitasGroupChangedListenerClass" glib:is-gtype-struct-for="Listener">
+		<field name="parent_class">
+			<type name="GObject.ObjectClass" c:type="GObjectClass"/>
+		</field>
+	</record>
+	<record name="GroupChangedListenerPrivate" c:type="EntitasGroupChangedListenerPrivate" disguised="1"/>
+	<class name="GroupUpdated" c:type="EntitasGroupUpdated" glib:type-name="EntitasGroupUpdated" glib:get-type="entitas_group_updated_get_type" glib:type-struct="GroupUpdatedClass" parent="GObject.Object">
+		<field name="parent_instance">
+			<type name="GObject.Object" c:type="GObject"/>
+		</field>
+		<field name="priv">
+			<type name="GroupUpdatedPrivate" c:type="EntitasGroupUpdatedPrivate*"/>
+		</field>
+		<method name="add" c:identifier="entitas_group_updated_add">
+			<return-value transfer-ownership="none">
+				<type name="none"/>
+			</return-value>
+			<parameters>
+				<parameter name="event" transfer-ownership="none" closure="1" scope="call">
+					<type name="Entitas.OnGroupUpdated" c:type="EntitasOnGroupUpdated"/>
+				</parameter>
+				<parameter name="event_target" transfer-ownership="none" allow-none="1">
+					<type name="gpointer" c:type="void*"/>
+				</parameter>
+			</parameters>
+		</method>
+		<method name="remove" c:identifier="entitas_group_updated_remove">
+			<return-value transfer-ownership="none">
+				<type name="none"/>
+			</return-value>
+			<parameters>
+				<parameter name="event" transfer-ownership="none" closure="1" scope="call">
+					<type name="Entitas.OnGroupUpdated" c:type="EntitasOnGroupUpdated"/>
+				</parameter>
+				<parameter name="event_target" transfer-ownership="none" allow-none="1">
+					<type name="gpointer" c:type="void*"/>
+				</parameter>
+			</parameters>
+		</method>
+		<method name="clear" c:identifier="entitas_group_updated_clear">
+			<return-value transfer-ownership="none">
+				<type name="none"/>
+			</return-value>
+		</method>
+		<method name="dispatch" c:identifier="entitas_group_updated_dispatch">
+			<return-value transfer-ownership="none">
+				<type name="none"/>
+			</return-value>
+			<parameters>
+				<parameter name="g" transfer-ownership="none">
+					<type name="Entitas.Group" c:type="EntitasGroup*"/>
+				</parameter>
+				<parameter name="e" transfer-ownership="none">
+					<type name="Entitas.Entity" c:type="EntitasEntity*"/>
+				</parameter>
+				<parameter name="i" transfer-ownership="none">
+					<type name="gint" c:type="gint"/>
+				</parameter>
+				<parameter name="c" transfer-ownership="none">
+					<type name="Entitas.IComponent" c:type="EntitasIComponent*"/>
+				</parameter>
+				<parameter name="u" transfer-ownership="none">
+					<type name="Entitas.IComponent" c:type="EntitasIComponent*"/>
+				</parameter>
+			</parameters>
+		</method>
+		<constructor name="new" c:identifier="entitas_group_updated_new">
+			<return-value transfer-ownership="full">
+				<type name="Entitas.GroupUpdated" c:type="EntitasGroupUpdated*"/>
+			</return-value>
+		</constructor>
+	</class>
+	<record name="GroupUpdatedClass" c:type="EntitasGroupUpdatedClass" glib:is-gtype-struct-for="GroupUpdated">
+		<field name="parent_class">
+			<type name="GObject.ObjectClass" c:type="GObjectClass"/>
+		</field>
+	</record>
+	<record name="GroupUpdatedPrivate" c:type="EntitasGroupUpdatedPrivate" disguised="1"/>
+	<class name="GroupUpdatedListener" c:type="EntitasGroupUpdatedListener" glib:type-name="EntitasGroupUpdatedListener" glib:get-type="entitas_group_updated_listener_get_type" glib:type-struct="GroupUpdatedListenerClass" parent="GObject.Object">
+		<field name="parent_instance">
+			<type name="GObject.Object" c:type="GObject"/>
+		</field>
+		<field name="priv">
+			<type name="GroupUpdatedListenerPrivate" c:type="EntitasGroupUpdatedListenerPrivate*"/>
+		</field>
+		<constructor name="new" c:identifier="entitas_group_updated_listener_new">
+			<return-value transfer-ownership="full">
+				<type name="Entitas.GroupUpdatedListener" c:type="EntitasGroupUpdatedListener*"/>
+			</return-value>
+			<parameters>
+				<parameter name="event" transfer-ownership="none" closure="1" scope="call">
+					<type name="Entitas.OnGroupUpdated" c:type="EntitasOnGroupUpdated"/>
+				</parameter>
+				<parameter name="event_target" transfer-ownership="none" allow-none="1">
+					<type name="gpointer" c:type="void*"/>
+				</parameter>
+			</parameters>
+		</constructor>
+		<property name="event" writable="1">
+			<type name="Entitas.OnGroupUpdated" c:type="EntitasOnGroupUpdated"/>
+		</property>
+		<method name="get_event" c:identifier="entitas_group_updated_listener_get_event">
+			<return-value transfer-ownership="none" closure="0" scope="call">
+				<type name="Entitas.OnGroupUpdated" c:type="EntitasOnGroupUpdated"/>
+			</return-value>
+			<parameters>
+				<parameter name="result_target" direction="out" transfer-ownership="none" allow-none="1">
+					<type name="gpointer" c:type="void*"/>
+				</parameter>
+			</parameters>
+		</method>
+		<method name="set_event" c:identifier="entitas_group_updated_listener_set_event">
+			<return-value transfer-ownership="none">
+				<type name="none"/>
+			</return-value>
+			<parameters>
+				<parameter name="value" transfer-ownership="none" closure="1" scope="call">
+					<type name="Entitas.OnGroupUpdated" c:type="EntitasOnGroupUpdated"/>
+				</parameter>
+				<parameter name="value_target" transfer-ownership="none" allow-none="1">
+					<type name="gpointer" c:type="void*"/>
+				</parameter>
+			</parameters>
+		</method>
+	</class>
+	<record name="GroupUpdatedListenerClass" c:type="EntitasGroupUpdatedListenerClass" glib:is-gtype-struct-for="Listener">
+		<field name="parent_class">
+			<type name="GObject.ObjectClass" c:type="GObjectClass"/>
+		</field>
+	</record>
+	<record name="GroupUpdatedListenerPrivate" c:type="EntitasGroupUpdatedListenerPrivate" disguised="1"/>
+	<class name="GroupsChanged" c:type="EntitasGroupsChanged" glib:type-name="EntitasGroupsChanged" glib:get-type="entitas_groups_changed_get_type" glib:type-struct="GroupsChangedClass" parent="GObject.Object">
+		<field name="parent_instance">
+			<type name="GObject.Object" c:type="GObject"/>
+		</field>
+		<field name="priv">
+			<type name="GroupsChangedPrivate" c:type="EntitasGroupsChangedPrivate*"/>
+		</field>
+		<method name="add" c:identifier="entitas_groups_changed_add">
+			<return-value transfer-ownership="none">
+				<type name="none"/>
+			</return-value>
+			<parameters>
+				<parameter name="event" transfer-ownership="none" closure="1" scope="call">
+					<type name="Entitas.OnGroupsChanged" c:type="EntitasOnGroupsChanged"/>
+				</parameter>
+				<parameter name="event_target" transfer-ownership="none" allow-none="1">
+					<type name="gpointer" c:type="void*"/>
+				</parameter>
+			</parameters>
+		</method>
+		<method name="remove" c:identifier="entitas_groups_changed_remove">
+			<return-value transfer-ownership="none">
+				<type name="none"/>
+			</return-value>
+			<parameters>
+				<parameter name="event" transfer-ownership="none" closure="1" scope="call">
+					<type name="Entitas.OnGroupsChanged" c:type="EntitasOnGroupsChanged"/>
+				</parameter>
+				<parameter name="event_target" transfer-ownership="none" allow-none="1">
+					<type name="gpointer" c:type="void*"/>
+				</parameter>
+			</parameters>
+		</method>
+		<method name="clear" c:identifier="entitas_groups_changed_clear">
+			<return-value transfer-ownership="none">
+				<type name="none"/>
+			</return-value>
+		</method>
+		<method name="dispatch" c:identifier="entitas_groups_changed_dispatch">
+			<return-value transfer-ownership="none">
+				<type name="none"/>
+			</return-value>
+			<parameters>
+				<parameter name="w" transfer-ownership="none">
+					<type name="Entitas.World" c:type="EntitasWorld*"/>
+				</parameter>
+				<parameter name="g" transfer-ownership="none">
+					<type name="Entitas.Group" c:type="EntitasGroup*"/>
+				</parameter>
+			</parameters>
+		</method>
+		<constructor name="new" c:identifier="entitas_groups_changed_new">
+			<return-value transfer-ownership="full">
+				<type name="Entitas.GroupsChanged" c:type="EntitasGroupsChanged*"/>
+			</return-value>
+		</constructor>
+	</class>
+	<record name="GroupsChangedClass" c:type="EntitasGroupsChangedClass" glib:is-gtype-struct-for="GroupsChanged">
+		<field name="parent_class">
+			<type name="GObject.ObjectClass" c:type="GObjectClass"/>
+		</field>
+	</record>
+	<record name="GroupsChangedPrivate" c:type="EntitasGroupsChangedPrivate" disguised="1"/>
+	<class name="GroupsChangedListener" c:type="EntitasGroupsChangedListener" glib:type-name="EntitasGroupsChangedListener" glib:get-type="entitas_groups_changed_listener_get_type" glib:type-struct="GroupsChangedListenerClass" parent="GObject.Object">
+		<field name="parent_instance">
+			<type name="GObject.Object" c:type="GObject"/>
+		</field>
+		<field name="priv">
+			<type name="GroupsChangedListenerPrivate" c:type="EntitasGroupsChangedListenerPrivate*"/>
+		</field>
+		<constructor name="new" c:identifier="entitas_groups_changed_listener_new">
+			<return-value transfer-ownership="full">
+				<type name="Entitas.GroupsChangedListener" c:type="EntitasGroupsChangedListener*"/>
+			</return-value>
+			<parameters>
+				<parameter name="event" transfer-ownership="none" closure="1" scope="call">
+					<type name="Entitas.OnGroupsChanged" c:type="EntitasOnGroupsChanged"/>
+				</parameter>
+				<parameter name="event_target" transfer-ownership="none" allow-none="1">
+					<type name="gpointer" c:type="void*"/>
+				</parameter>
+			</parameters>
+		</constructor>
+		<property name="event" writable="1">
+			<type name="Entitas.OnGroupsChanged" c:type="EntitasOnGroupsChanged"/>
+		</property>
+		<method name="get_event" c:identifier="entitas_groups_changed_listener_get_event">
+			<return-value transfer-ownership="none" closure="0" scope="call">
+				<type name="Entitas.OnGroupsChanged" c:type="EntitasOnGroupsChanged"/>
+			</return-value>
+			<parameters>
+				<parameter name="result_target" direction="out" transfer-ownership="none" allow-none="1">
+					<type name="gpointer" c:type="void*"/>
+				</parameter>
+			</parameters>
+		</method>
+		<method name="set_event" c:identifier="entitas_groups_changed_listener_set_event">
+			<return-value transfer-ownership="none">
+				<type name="none"/>
+			</return-value>
+			<parameters>
+				<parameter name="value" transfer-ownership="none" closure="1" scope="call">
+					<type name="Entitas.OnGroupsChanged" c:type="EntitasOnGroupsChanged"/>
+				</parameter>
+				<parameter name="value_target" transfer-ownership="none" allow-none="1">
+					<type name="gpointer" c:type="void*"/>
+				</parameter>
+			</parameters>
+		</method>
+	</class>
+	<record name="GroupsChangedListenerClass" c:type="EntitasGroupsChangedListenerClass" glib:is-gtype-struct-for="Listener">
+		<field name="parent_class">
+			<type name="GObject.ObjectClass" c:type="GObjectClass"/>
+		</field>
+	</record>
+	<record name="GroupsChangedListenerPrivate" c:type="EntitasGroupsChangedListenerPrivate" disguised="1"/>
+	<class name="WorldChanged" c:type="EntitasWorldChanged" glib:type-name="EntitasWorldChanged" glib:get-type="entitas_world_changed_get_type" glib:type-struct="WorldChangedClass" parent="GObject.Object">
+		<field name="parent_instance">
+			<type name="GObject.Object" c:type="GObject"/>
+		</field>
+		<field name="priv">
+			<type name="WorldChangedPrivate" c:type="EntitasWorldChangedPrivate*"/>
+		</field>
+		<method name="add" c:identifier="entitas_world_changed_add">
+			<return-value transfer-ownership="none">
+				<type name="none"/>
+			</return-value>
+			<parameters>
+				<parameter name="event" transfer-ownership="none" closure="1" scope="call">
+					<type name="Entitas.OnWorldChanged" c:type="EntitasOnWorldChanged"/>
+				</parameter>
+				<parameter name="event_target" transfer-ownership="none" allow-none="1">
+					<type name="gpointer" c:type="void*"/>
+				</parameter>
+			</parameters>
+		</method>
+		<method name="remove" c:identifier="entitas_world_changed_remove">
+			<return-value transfer-ownership="none">
+				<type name="none"/>
+			</return-value>
+			<parameters>
+				<parameter name="event" transfer-ownership="none" closure="1" scope="call">
+					<type name="Entitas.OnWorldChanged" c:type="EntitasOnWorldChanged"/>
+				</parameter>
+				<parameter name="event_target" transfer-ownership="none" allow-none="1">
+					<type name="gpointer" c:type="void*"/>
+				</parameter>
+			</parameters>
+		</method>
+		<method name="clear" c:identifier="entitas_world_changed_clear">
+			<return-value transfer-ownership="none">
+				<type name="none"/>
+			</return-value>
+		</method>
+		<method name="dispatch" c:identifier="entitas_world_changed_dispatch">
+			<return-value transfer-ownership="none">
+				<type name="none"/>
+			</return-value>
+			<parameters>
+				<parameter name="w" transfer-ownership="none">
+					<type name="Entitas.World" c:type="EntitasWorld*"/>
+				</parameter>
+				<parameter name="e" transfer-ownership="none">
+					<type name="Entitas.Entity" c:type="EntitasEntity*"/>
+				</parameter>
+			</parameters>
+		</method>
+		<constructor name="new" c:identifier="entitas_world_changed_new">
+			<return-value transfer-ownership="full">
+				<type name="Entitas.WorldChanged" c:type="EntitasWorldChanged*"/>
+			</return-value>
+		</constructor>
+	</class>
+	<record name="WorldChangedClass" c:type="EntitasWorldChangedClass" glib:is-gtype-struct-for="WorldChanged">
+		<field name="parent_class">
+			<type name="GObject.ObjectClass" c:type="GObjectClass"/>
+		</field>
+	</record>
+	<record name="WorldChangedPrivate" c:type="EntitasWorldChangedPrivate" disguised="1"/>
+	<class name="WorldChangedListener" c:type="EntitasWorldChangedListener" glib:type-name="EntitasWorldChangedListener" glib:get-type="entitas_world_changed_listener_get_type" glib:type-struct="WorldChangedListenerClass" parent="GObject.Object">
+		<field name="parent_instance">
+			<type name="GObject.Object" c:type="GObject"/>
+		</field>
+		<field name="priv">
+			<type name="WorldChangedListenerPrivate" c:type="EntitasWorldChangedListenerPrivate*"/>
+		</field>
+		<constructor name="new" c:identifier="entitas_world_changed_listener_new">
+			<return-value transfer-ownership="full">
+				<type name="Entitas.WorldChangedListener" c:type="EntitasWorldChangedListener*"/>
+			</return-value>
+			<parameters>
+				<parameter name="event" transfer-ownership="none" closure="1" scope="call">
+					<type name="Entitas.OnWorldChanged" c:type="EntitasOnWorldChanged"/>
+				</parameter>
+				<parameter name="event_target" transfer-ownership="none" allow-none="1">
+					<type name="gpointer" c:type="void*"/>
+				</parameter>
+			</parameters>
+		</constructor>
+		<property name="event" writable="1">
+			<type name="Entitas.OnWorldChanged" c:type="EntitasOnWorldChanged"/>
+		</property>
+		<method name="get_event" c:identifier="entitas_world_changed_listener_get_event">
+			<return-value transfer-ownership="none" closure="0" scope="call">
+				<type name="Entitas.OnWorldChanged" c:type="EntitasOnWorldChanged"/>
+			</return-value>
+			<parameters>
+				<parameter name="result_target" direction="out" transfer-ownership="none" allow-none="1">
+					<type name="gpointer" c:type="void*"/>
+				</parameter>
+			</parameters>
+		</method>
+		<method name="set_event" c:identifier="entitas_world_changed_listener_set_event">
+			<return-value transfer-ownership="none">
+				<type name="none"/>
+			</return-value>
+			<parameters>
+				<parameter name="value" transfer-ownership="none" closure="1" scope="call">
+					<type name="Entitas.OnWorldChanged" c:type="EntitasOnWorldChanged"/>
+				</parameter>
+				<parameter name="value_target" transfer-ownership="none" allow-none="1">
+					<type name="gpointer" c:type="void*"/>
+				</parameter>
+			</parameters>
+		</method>
+	</class>
+	<record name="WorldChangedListenerClass" c:type="EntitasWorldChangedListenerClass" glib:is-gtype-struct-for="Listener">
+		<field name="parent_class">
+			<type name="GObject.ObjectClass" c:type="GObjectClass"/>
+		</field>
+	</record>
+	<record name="WorldChangedListenerPrivate" c:type="EntitasWorldChangedListenerPrivate" disguised="1"/>
+	<class name="Group" c:type="EntitasGroup" glib:type-name="EntitasGroup" glib:get-type="entitas_group_get_type" glib:type-struct="GroupClass" parent="GObject.Object">
+		<field name="parent_instance">
+			<type name="GObject.Object" c:type="GObject"/>
+		</field>
+		<field name="priv">
+			<type name="GroupPrivate" c:type="EntitasGroupPrivate*"/>
+		</field>
+		<constructor name="new" c:identifier="entitas_group_new">
+			<return-value transfer-ownership="full">
+				<type name="Entitas.Group" c:type="EntitasGroup*"/>
+			</return-value>
+			<parameters>
+				<parameter name="matcher" transfer-ownership="none">
+					<type name="Entitas.IMatcher" c:type="EntitasIMatcher*"/>
+				</parameter>
+			</parameters>
+		</constructor>
+		<method name="handleEntitySilently" c:identifier="entitas_group_handleEntitySilently" throws="1">
+			<return-value transfer-ownership="none">
+				<type name="none"/>
+			</return-value>
+			<parameters>
+				<parameter name="entity" transfer-ownership="none">
+					<type name="Entitas.Entity" c:type="EntitasEntity*"/>
+				</parameter>
+			</parameters>
+		</method>
+		<method name="handleEntity" c:identifier="entitas_group_handleEntity" throws="1">
+			<return-value transfer-ownership="none">
+				<type name="none"/>
+			</return-value>
+			<parameters>
+				<parameter name="entity" transfer-ownership="none">
+					<type name="Entitas.Entity" c:type="EntitasEntity*"/>
+				</parameter>
+				<parameter name="index" transfer-ownership="none">
+					<type name="gint" c:type="gint"/>
+				</parameter>
+				<parameter name="component" transfer-ownership="none">
+					<type name="Entitas.IComponent" c:type="EntitasIComponent*"/>
+				</parameter>
+			</parameters>
+		</method>
+		<method name="updateEntity" c:identifier="entitas_group_updateEntity">
+			<return-value transfer-ownership="none">
+				<type name="none"/>
+			</return-value>
+			<parameters>
+				<parameter name="entity" transfer-ownership="none">
+					<type name="Entitas.Entity" c:type="EntitasEntity*"/>
+				</parameter>
+				<parameter name="index" transfer-ownership="none">
+					<type name="gint" c:type="gint"/>
+				</parameter>
+				<parameter name="previousComponent" transfer-ownership="none">
+					<type name="Entitas.IComponent" c:type="EntitasIComponent*"/>
+				</parameter>
+				<parameter name="newComponent" transfer-ownership="none">
+					<type name="Entitas.IComponent" c:type="EntitasIComponent*"/>
+				</parameter>
+			</parameters>
+		</method>
+		<method name="addEntitySilently" c:identifier="entitas_group_addEntitySilently">
+			<return-value transfer-ownership="none">
+				<type name="none"/>
+			</return-value>
+			<parameters>
+				<parameter name="entity" transfer-ownership="none">
+					<type name="Entitas.Entity" c:type="EntitasEntity*"/>
+				</parameter>
+			</parameters>
+		</method>
+		<method name="addEntity" c:identifier="entitas_group_addEntity">
+			<return-value transfer-ownership="none">
+				<type name="none"/>
+			</return-value>
+			<parameters>
+				<parameter name="entity" transfer-ownership="none">
+					<type name="Entitas.Entity" c:type="EntitasEntity*"/>
+				</parameter>
+				<parameter name="index" transfer-ownership="none">
+					<type name="gint" c:type="gint"/>
+				</parameter>
+				<parameter name="component" transfer-ownership="none">
+					<type name="Entitas.IComponent" c:type="EntitasIComponent*"/>
+				</parameter>
+			</parameters>
+		</method>
+		<method name="removeEntitySilently" c:identifier="entitas_group_removeEntitySilently" throws="1">
+			<return-value transfer-ownership="none">
+				<type name="none"/>
+			</return-value>
+			<parameters>
+				<parameter name="entity" transfer-ownership="none">
+					<type name="Entitas.Entity" c:type="EntitasEntity*"/>
+				</parameter>
+			</parameters>
+		</method>
+		<method name="removeEntity" c:identifier="entitas_group_removeEntity" throws="1">
+			<return-value transfer-ownership="none">
+				<type name="none"/>
+			</return-value>
+			<parameters>
+				<parameter name="entity" transfer-ownership="none">
+					<type name="Entitas.Entity" c:type="EntitasEntity*"/>
+				</parameter>
+				<parameter name="index" transfer-ownership="none">
+					<type name="gint" c:type="gint"/>
+				</parameter>
+				<parameter name="component" transfer-ownership="none">
+					<type name="Entitas.IComponent" c:type="EntitasIComponent*"/>
+				</parameter>
+			</parameters>
+		</method>
+		<method name="containsEntity" c:identifier="entitas_group_containsEntity">
+			<return-value transfer-ownership="full">
+				<type name="gboolean" c:type="gboolean"/>
+			</return-value>
+			<parameters>
+				<parameter name="entity" transfer-ownership="none">
+					<type name="Entitas.Entity" c:type="EntitasEntity*"/>
+				</parameter>
+			</parameters>
+		</method>
+		<method name="getEntities" c:identifier="entitas_group_getEntities">
+			<return-value transfer-ownership="full">
+				<array length="0">
+					<type name="Entitas.Entity" c:type="EntitasEntity*"/>
+				</array>
+			</return-value>
+			<parameters>
+				<parameter name="result_length1" direction="out" transfer-ownership="none">
+					<type name="gint" c:type="gint*"/>
+				</parameter>
+			</parameters>
+		</method>
+		<method name="getSingleEntity" c:identifier="entitas_group_getSingleEntity" throws="1">
+			<return-value transfer-ownership="none" allow-none="1">
+				<type name="Entitas.Entity" c:type="EntitasEntity*"/>
+			</return-value>
+		</method>
+		<method name="toString" c:identifier="entitas_group_toString">
+			<return-value transfer-ownership="full">
+				<type name="utf8" c:type="gchar*"/>
+			</return-value>
+		</method>
+		<property name="onEntityAdded">
+			<type name="Entitas.GroupChanged" c:type="EntitasGroupChanged*"/>
+		</property>
+		<method name="get_onEntityAdded" c:identifier="entitas_group_get_onEntityAdded">
+			<return-value transfer-ownership="none">
+				<type name="Entitas.GroupChanged" c:type="EntitasGroupChanged*"/>
+			</return-value>
+		</method>
+		<property name="onEntityRemoved">
+			<type name="Entitas.GroupChanged" c:type="EntitasGroupChanged*"/>
+		</property>
+		<method name="get_onEntityRemoved" c:identifier="entitas_group_get_onEntityRemoved">
+			<return-value transfer-ownership="none">
+				<type name="Entitas.GroupChanged" c:type="EntitasGroupChanged*"/>
+			</return-value>
+		</method>
+		<property name="onEntityUpdated">
+			<type name="Entitas.GroupUpdated" c:type="EntitasGroupUpdated*"/>
+		</property>
+		<method name="get_onEntityUpdated" c:identifier="entitas_group_get_onEntityUpdated">
+			<return-value transfer-ownership="none">
+				<type name="Entitas.GroupUpdated" c:type="EntitasGroupUpdated*"/>
+			</return-value>
+		</method>
+		<property name="count">
+			<type name="gint" c:type="gint"/>
+		</property>
+		<method name="get_count" c:identifier="entitas_group_get_count">
+			<return-value transfer-ownership="none">
+				<type name="gint" c:type="gint"/>
+			</return-value>
+		</method>
+		<property name="matcher">
+			<type name="Entitas.IMatcher" c:type="EntitasIMatcher*"/>
+		</property>
+		<method name="get_matcher" c:identifier="entitas_group_get_matcher">
+			<return-value transfer-ownership="none">
+				<type name="Entitas.IMatcher" c:type="EntitasIMatcher*"/>
+			</return-value>
+		</method>
+	</class>
+	<record name="GroupClass" c:type="EntitasGroupClass" glib:is-gtype-struct-for="Group">
+		<field name="parent_class">
+			<type name="GObject.ObjectClass" c:type="GObjectClass"/>
+		</field>
+	</record>
+	<record name="GroupPrivate" c:type="EntitasGroupPrivate" disguised="1"/>
+	<class name="Matcher" c:type="EntitasMatcher" glib:type-name="EntitasMatcher" glib:get-type="entitas_matcher_get_type" glib:type-struct="MatcherClass" parent="GObject.Object">
+		<implements name="Entitas.IMatcher"/>
+		<implements name="Entitas.IAllOfMatcher"/>
+		<implements name="Entitas.IAnyOfMatcher"/>
+		<implements name="Entitas.INoneOfMatcher"/>
+		<field name="parent_instance">
+			<type name="GObject.Object" c:type="GObject"/>
+		</field>
+		<field name="priv">
+			<type name="MatcherPrivate" c:type="EntitasMatcherPrivate*"/>
+		</field>
+		<field name="entitas_matcher_uniqueId">
+			<type name="gint" c:type="gint"/>
+		</field>
+		<constructor name="new" c:identifier="entitas_matcher_new">
+			<return-value transfer-ownership="full">
+				<type name="Entitas.Matcher" c:type="EntitasMatcher*"/>
+			</return-value>
+		</constructor>
+		<method name="mergeIndices" c:identifier="entitas_matcher_mergeIndices">
+			<return-value transfer-ownership="full">
+				<array length="0">
+					<type name="gint" c:type="gint"/>
+				</array>
+			</return-value>
+			<parameters>
+				<parameter name="result_length1" direction="out" transfer-ownership="none">
+					<type name="gint" c:type="gint*"/>
+				</parameter>
+			</parameters>
+		</method>
+		<function name="componentsToString" c:identifier="entitas_matcher_componentsToString">
+			<return-value transfer-ownership="full">
+				<type name="utf8" c:type="gchar*"/>
+			</return-value>
+			<parameters>
+				<parameter name="indexArray" transfer-ownership="none">
+					<array length="1">
+						<type name="gint" c:type="gint"/>
+					</array>
+				</parameter>
+				<parameter name="indexArray_length1" transfer-ownership="none">
+					<type name="gint" c:type="gint"/>
+				</parameter>
+			</parameters>
+		</function>
+		<function name="listToArray" c:identifier="entitas_matcher_listToArray">
+			<return-value transfer-ownership="full">
+				<array length="1">
+					<type name="gint" c:type="gint"/>
+				</array>
+			</return-value>
+			<parameters>
+				<parameter name="l" transfer-ownership="none">
+					<type name="Gee.ArrayList" c:type="GeeArrayList*">
+						<type name="gint" c:type="gint"/>
+					</type>
+				</parameter>
+				<parameter name="result_length1" direction="out" transfer-ownership="none">
+					<type name="gint" c:type="gint*"/>
+				</parameter>
+			</parameters>
+		</function>
+		<function name="distinctIndices" c:identifier="entitas_matcher_distinctIndices">
+			<return-value transfer-ownership="full">
+				<array length="2">
+					<type name="gint" c:type="gint"/>
+				</array>
+			</return-value>
+			<parameters>
+				<parameter name="indices" transfer-ownership="none">
+					<array length="1">
+						<type name="gint" c:type="gint"/>
+					</array>
+				</parameter>
+				<parameter name="indices_length1" transfer-ownership="none">
+					<type name="gint" c:type="gint"/>
+				</parameter>
+				<parameter name="result_length1" direction="out" transfer-ownership="none">
+					<type name="gint" c:type="gint*"/>
+				</parameter>
+			</parameters>
+		</function>
+		<function name="merge" c:identifier="entitas_matcher_merge" throws="1">
+			<return-value transfer-ownership="full">
+				<array length="2">
+					<type name="gint" c:type="gint"/>
+				</array>
+			</return-value>
+			<parameters>
+				<parameter name="matchers" transfer-ownership="none">
+					<array length="1">
+						<type name="Entitas.IMatcher" c:type="EntitasIMatcher*"/>
+					</array>
+				</parameter>
+				<parameter name="matchers_length1" transfer-ownership="none">
+					<type name="gint" c:type="gint"/>
+				</parameter>
+				<parameter name="result_length1" direction="out" transfer-ownership="none">
+					<type name="gint" c:type="gint*"/>
+				</parameter>
+			</parameters>
+		</function>
+		<function name="AllOf" c:identifier="entitas_matcher_AllOf">
+			<return-value transfer-ownership="full">
+				<type name="Entitas.IMatcher" c:type="EntitasIMatcher*"/>
+			</return-value>
+			<parameters>
+				<parameter name="args" transfer-ownership="none">
+					<array length="1">
+						<type name="gint" c:type="gint"/>
+					</array>
+				</parameter>
+				<parameter name="args_length1" transfer-ownership="none">
+					<type name="gint" c:type="gint"/>
+				</parameter>
+			</parameters>
+		</function>
+		<function name="AnyOf" c:identifier="entitas_matcher_AnyOf">
+			<return-value transfer-ownership="full">
+				<type name="Entitas.IMatcher" c:type="EntitasIMatcher*"/>
+			</return-value>
+			<parameters>
+				<parameter name="args" transfer-ownership="none">
+					<array length="1">
+						<type name="gint" c:type="gint"/>
+					</array>
+				</parameter>
+				<parameter name="args_length1" transfer-ownership="none">
+					<type name="gint" c:type="gint"/>
+				</parameter>
+			</parameters>
+		</function>
+		<property name="allOfIndices">
+			<array>
+				<type name="gint" c:type="gint"/>
+			</array>
+		</property>
+		<method name="get_allOfIndices" c:identifier="entitas_matcher_get_allOfIndices">
+			<return-value transfer-ownership="none">
+				<array length="0">
+					<type name="gint" c:type="gint"/>
+				</array>
+			</return-value>
+			<parameters>
+				<parameter name="result_length1" direction="out" transfer-ownership="none">
+					<type name="gint" c:type="gint*"/>
+				</parameter>
+			</parameters>
+		</method>
+		<property name="anyOfIndices">
+			<array>
+				<type name="gint" c:type="gint"/>
+			</array>
+		</property>
+		<method name="get_anyOfIndices" c:identifier="entitas_matcher_get_anyOfIndices">
+			<return-value transfer-ownership="none">
+				<array length="0">
+					<type name="gint" c:type="gint"/>
+				</array>
+			</return-value>
+			<parameters>
+				<parameter name="result_length1" direction="out" transfer-ownership="none">
+					<type name="gint" c:type="gint*"/>
+				</parameter>
+			</parameters>
+		</method>
+		<property name="noneOfIndices">
+			<array>
+				<type name="gint" c:type="gint"/>
+			</array>
+		</property>
+		<method name="get_noneOfIndices" c:identifier="entitas_matcher_get_noneOfIndices">
+			<return-value transfer-ownership="none">
+				<array length="0">
+					<type name="gint" c:type="gint"/>
+				</array>
+			</return-value>
+			<parameters>
+				<parameter name="result_length1" direction="out" transfer-ownership="none">
+					<type name="gint" c:type="gint*"/>
+				</parameter>
+			</parameters>
+		</method>
+	</class>
+	<record name="MatcherClass" c:type="EntitasMatcherClass" glib:is-gtype-struct-for="Matcher">
+		<field name="parent_class">
+			<type name="GObject.ObjectClass" c:type="GObjectClass"/>
+		</field>
+	</record>
+	<record name="MatcherPrivate" c:type="EntitasMatcherPrivate" disguised="1"/>
+	<class name="World" c:type="EntitasWorld" glib:type-name="EntitasWorld" glib:get-type="entitas_world_get_type" glib:type-struct="WorldClass" parent="GObject.Object">
+		<field name="parent_instance">
+			<type name="GObject.Object" c:type="GObject"/>
+		</field>
+		<field name="priv">
+			<type name="WorldPrivate" c:type="EntitasWorldPrivate*"/>
+		</field>
+		<constructor name="new" c:identifier="entitas_world_new">
+			<return-value transfer-ownership="full">
+				<type name="Entitas.World" c:type="EntitasWorld*"/>
+			</return-value>
+			<parameters>
+				<parameter name="components" transfer-ownership="none">
+					<array length="1">
+						<type name="utf8" c:type="gchar*"/>
+					</array>
+				</parameter>
+				<parameter name="components_length1" transfer-ownership="none">
+					<type name="gint" c:type="gint"/>
+				</parameter>
+				<parameter name="startCreationIndex" transfer-ownership="none">
+					<type name="gint" c:type="gint"/>
+				</parameter>
+			</parameters>
+		</constructor>
+		<method name="createEntity" c:identifier="entitas_world_createEntity">
+			<return-value transfer-ownership="full">
+				<type name="Entitas.Entity" c:type="EntitasEntity*"/>
+			</return-value>
+			<parameters>
+				<parameter name="name" transfer-ownership="none">
+					<type name="utf8" c:type="const gchar*"/>
+				</parameter>
+			</parameters>
+		</method>
+		<method name="destroyEntity" c:identifier="entitas_world_destroyEntity" throws="1">
+			<return-value transfer-ownership="none">
+				<type name="none"/>
+			</return-value>
+			<parameters>
+				<parameter name="entity" transfer-ownership="none">
+					<type name="Entitas.Entity" c:type="EntitasEntity*"/>
+				</parameter>
+			</parameters>
+		</method>
+		<method name="destroyAllEntities" c:identifier="entitas_world_destroyAllEntities" throws="1">
+			<return-value transfer-ownership="none">
+				<type name="none"/>
+			</return-value>
+		</method>
+		<method name="hasEntity" c:identifier="entitas_world_hasEntity">
+			<return-value transfer-ownership="full">
+				<type name="gboolean" c:type="gboolean"/>
+			</return-value>
+			<parameters>
+				<parameter name="entity" transfer-ownership="none">
+					<type name="Entitas.Entity" c:type="EntitasEntity*"/>
+				</parameter>
+			</parameters>
+		</method>
+		<method name="getEntities" c:identifier="entitas_world_getEntities">
+			<return-value transfer-ownership="full">
+				<array length="1">
+					<type name="Entitas.Entity" c:type="EntitasEntity*"/>
+				</array>
+			</return-value>
+			<parameters>
+				<parameter name="matcher" transfer-ownership="none" allow-none="1">
+					<type name="Entitas.IMatcher" c:type="EntitasIMatcher*"/>
+				</parameter>
+				<parameter name="result_length1" direction="out" transfer-ownership="none">
+					<type name="gint" c:type="gint*"/>
+				</parameter>
+			</parameters>
+		</method>
+		<method name="add" c:identifier="entitas_world_add">
+			<return-value transfer-ownership="full">
+				<type name="Entitas.World" c:type="EntitasWorld*"/>
+			</return-value>
+			<parameters>
+				<parameter name="system" transfer-ownership="none">
+					<type name="Entitas.ISystem" c:type="EntitasISystem*"/>
+				</parameter>
+			</parameters>
+		</method>
+		<method name="initialize" c:identifier="entitas_world_initialize">
+			<return-value transfer-ownership="full">
+				<type name="Entitas.World" c:type="EntitasWorld*"/>
+			</return-value>
+		</method>
+		<method name="execute" c:identifier="entitas_world_execute">
+			<return-value transfer-ownership="none">
+				<type name="none"/>
+			</return-value>
+		</method>
+		<method name="getGroup" c:identifier="entitas_world_getGroup">
+			<return-value transfer-ownership="full">
+				<type name="Entitas.Group" c:type="EntitasGroup*"/>
+			</return-value>
+			<parameters>
+				<parameter name="matcher" transfer-ownership="none">
+					<type name="Entitas.IMatcher" c:type="EntitasIMatcher*"/>
+				</parameter>
+			</parameters>
+		</method>
+		<method name="updateGroupsComponentAddedOrRemoved" c:identifier="entitas_world_updateGroupsComponentAddedOrRemoved">
+			<return-value transfer-ownership="none">
+				<type name="none"/>
+			</return-value>
+			<parameters>
+				<parameter name="entity" transfer-ownership="none">
+					<type name="Entitas.Entity" c:type="EntitasEntity*"/>
+				</parameter>
+				<parameter name="index" transfer-ownership="none">
+					<type name="gint" c:type="gint"/>
+				</parameter>
+				<parameter name="component" transfer-ownership="none">
+					<type name="Entitas.IComponent" c:type="EntitasIComponent*"/>
+				</parameter>
+			</parameters>
+		</method>
+		<method name="updateGroupsComponentReplaced" c:identifier="entitas_world_updateGroupsComponentReplaced">
+			<return-value transfer-ownership="none">
+				<type name="none"/>
+			</return-value>
+			<parameters>
+				<parameter name="entity" transfer-ownership="none">
+					<type name="Entitas.Entity" c:type="EntitasEntity*"/>
+				</parameter>
+				<parameter name="index" transfer-ownership="none">
+					<type name="gint" c:type="gint"/>
+				</parameter>
+				<parameter name="previousComponent" transfer-ownership="none">
+					<type name="Entitas.IComponent" c:type="EntitasIComponent*"/>
+				</parameter>
+				<parameter name="newComponent" transfer-ownership="none">
+					<type name="Entitas.IComponent" c:type="EntitasIComponent*"/>
+				</parameter>
+			</parameters>
+		</method>
+		<method name="onEntityReleased" c:identifier="entitas_world_onEntityReleased">
+			<return-value transfer-ownership="none">
+				<type name="none"/>
+			</return-value>
+			<parameters>
+				<parameter name="entity" transfer-ownership="none">
+					<type name="Entitas.Entity" c:type="EntitasEntity*"/>
+				</parameter>
+			</parameters>
+		</method>
+		<property name="components">
+			<array>
+				<type name="utf8" c:type="gchar*"/>
+			</array>
+		</property>
+		<function name="get_components" c:identifier="entitas_world_get_components">
+			<return-value transfer-ownership="none">
+				<array length="0">
+					<type name="utf8" c:type="gchar*"/>
+				</array>
+			</return-value>
+			<parameters>
+				<parameter name="result_length1" direction="out" transfer-ownership="none">
+					<type name="gint" c:type="gint*"/>
+				</parameter>
+			</parameters>
+		</function>
+		<property name="instance">
+			<type name="Entitas.World" c:type="EntitasWorld*"/>
+		</property>
+		<function name="get_instance" c:identifier="entitas_world_get_instance">
+			<return-value transfer-ownership="none">
+				<type name="Entitas.World" c:type="EntitasWorld*"/>
+			</return-value>
+		</function>
+		<property name="random">
+			<type name="GLib.Rand" c:type="GRand*"/>
+		</property>
+		<function name="get_random" c:identifier="entitas_world_get_random">
+			<return-value transfer-ownership="none">
+				<type name="GLib.Rand" c:type="GRand*"/>
+			</return-value>
+		</function>
+		<property name="componentsCount">
+			<type name="gint" c:type="gint"/>
+		</property>
+		<method name="get_componentsCount" c:identifier="entitas_world_get_componentsCount">
+			<return-value transfer-ownership="none">
+				<type name="gint" c:type="gint"/>
+			</return-value>
+		</method>
+		<property name="count">
+			<type name="gint" c:type="gint"/>
+		</property>
+		<method name="get_count" c:identifier="entitas_world_get_count">
+			<return-value transfer-ownership="none">
+				<type name="gint" c:type="gint"/>
+			</return-value>
+		</method>
+		<property name="reusableEntitiesCount">
+			<type name="gint" c:type="gint"/>
+		</property>
+		<method name="get_reusableEntitiesCount" c:identifier="entitas_world_get_reusableEntitiesCount">
+			<return-value transfer-ownership="none">
+				<type name="gint" c:type="gint"/>
+			</return-value>
+		</method>
+		<property name="retainedEntitiesCount">
+			<type name="gint" c:type="gint"/>
+		</property>
+		<method name="get_retainedEntitiesCount" c:identifier="entitas_world_get_retainedEntitiesCount">
+			<return-value transfer-ownership="none">
+				<type name="gint" c:type="gint"/>
+			</return-value>
+		</method>
+		<property name="onEntityCreated">
+			<type name="Entitas.WorldChanged" c:type="EntitasWorldChanged*"/>
+		</property>
+		<method name="get_onEntityCreated" c:identifier="entitas_world_get_onEntityCreated">
+			<return-value transfer-ownership="none">
+				<type name="Entitas.WorldChanged" c:type="EntitasWorldChanged*"/>
+			</return-value>
+		</method>
+		<property name="onEntityWillBeDestroyed">
+			<type name="Entitas.WorldChanged" c:type="EntitasWorldChanged*"/>
+		</property>
+		<method name="get_onEntityWillBeDestroyed" c:identifier="entitas_world_get_onEntityWillBeDestroyed">
+			<return-value transfer-ownership="none">
+				<type name="Entitas.WorldChanged" c:type="EntitasWorldChanged*"/>
+			</return-value>
+		</method>
+		<property name="onEntityDestroyed">
+			<type name="Entitas.WorldChanged" c:type="EntitasWorldChanged*"/>
+		</property>
+		<method name="get_onEntityDestroyed" c:identifier="entitas_world_get_onEntityDestroyed">
+			<return-value transfer-ownership="none">
+				<type name="Entitas.WorldChanged" c:type="EntitasWorldChanged*"/>
+			</return-value>
+		</method>
+		<property name="onGroupCreated">
+			<type name="Entitas.GroupsChanged" c:type="EntitasGroupsChanged*"/>
+		</property>
+		<method name="get_onGroupCreated" c:identifier="entitas_world_get_onGroupCreated">
+			<return-value transfer-ownership="none">
+				<type name="Entitas.GroupsChanged" c:type="EntitasGroupsChanged*"/>
+			</return-value>
+		</method>
+		<property name="name">
+			<type name="utf8" c:type="gchar*"/>
+		</property>
+		<method name="get_name" c:identifier="entitas_world_get_name">
+			<return-value transfer-ownership="none">
+				<type name="utf8" c:type="const gchar*"/>
+			</return-value>
+		</method>
+	</class>
+	<record name="WorldClass" c:type="EntitasWorldClass" glib:is-gtype-struct-for="World">
+		<field name="parent_class">
+			<type name="GObject.ObjectClass" c:type="GObjectClass"/>
+		</field>
+	</record>
+	<record name="WorldPrivate" c:type="EntitasWorldPrivate" disguised="1"/>
+	<interface name="IComponent" c:type="EntitasIComponent" glib:type-name="EntitasIComponent" glib:get-type="entitas_icomponent_get_type" glib:type-struct="IComponentIface">
+		<prerequisite name="GObject.Object"/>
+	</interface>
+	<record name="IComponentIface" c:type="EntitasIComponentIface" glib:is-gtype-struct-for="IComponent">
+		<field name="parent_iface">
+			<type name="GObject.TypeInterface" c:type="GTypeInterface"/>
+		</field>
+	</record>
+	<interface name="IMatcher" c:type="EntitasIMatcher" glib:type-name="EntitasIMatcher" glib:get-type="entitas_imatcher_get_type" glib:type-struct="IMatcherIface">
+		<prerequisite name="GObject.Object"/>
+		<method name="matches" c:identifier="entitas_imatcher_matches">
+			<return-value transfer-ownership="full">
+				<type name="gboolean" c:type="gboolean"/>
+			</return-value>
+			<parameters>
+				<parameter name="entity" transfer-ownership="none">
+					<type name="Entitas.Entity" c:type="EntitasEntity*"/>
+				</parameter>
+			</parameters>
+		</method>
+		<virtual-method name="matches" invoker="matches">
+			<return-value transfer-ownership="full">
+				<type name="gboolean" c:type="gboolean"/>
+			</return-value>
+			<parameters>
+				<parameter name="entity" transfer-ownership="none">
+					<type name="Entitas.Entity" c:type="EntitasEntity*"/>
+				</parameter>
+			</parameters>
+		</virtual-method>
+		<method name="toString" c:identifier="entitas_imatcher_toString">
+			<return-value transfer-ownership="full">
+				<type name="utf8" c:type="gchar*"/>
+			</return-value>
+		</method>
+		<virtual-method name="toString" invoker="toString">
+			<return-value transfer-ownership="full">
+				<type name="utf8" c:type="gchar*"/>
+			</return-value>
+		</virtual-method>
+		<property name="id">
+			<type name="utf8" c:type="gchar*"/>
+		</property>
+		<method name="get_id" c:identifier="entitas_imatcher_get_id">
+			<return-value transfer-ownership="none">
+				<type name="utf8" c:type="const gchar*"/>
+			</return-value>
+		</method>
+		<virtual-method name="get_id" invoker="get_id">
+			<return-value transfer-ownership="none">
+				<type name="utf8" c:type="const gchar*"/>
+			</return-value>
+		</virtual-method>
+		<property name="indices">
+			<array>
+				<type name="gint" c:type="gint"/>
+			</array>
+		</property>
+		<method name="get_indices" c:identifier="entitas_imatcher_get_indices">
+			<return-value transfer-ownership="none">
+				<array length="0">
+					<type name="gint" c:type="gint"/>
+				</array>
+			</return-value>
+			<parameters>
+				<parameter name="result_length1" direction="out" transfer-ownership="none">
+					<type name="gint" c:type="gint*"/>
+				</parameter>
+			</parameters>
+		</method>
+		<virtual-method name="get_indices" invoker="get_indices">
+			<return-value transfer-ownership="none">
+				<array length="0">
+					<type name="gint" c:type="gint"/>
+				</array>
+			</return-value>
+			<parameters>
+				<parameter name="result_length1" direction="out" transfer-ownership="none">
+					<type name="gint" c:type="gint*"/>
+				</parameter>
+			</parameters>
+		</virtual-method>
+	</interface>
+	<record name="IMatcherIface" c:type="EntitasIMatcherIface" glib:is-gtype-struct-for="IMatcher">
+		<field name="parent_iface">
+			<type name="GObject.TypeInterface" c:type="GTypeInterface"/>
+		</field>
+		<field name="matches">
+			<callback name="matches" c:type="matches">
+				<return-value transfer-ownership="full">
+					<type name="gboolean" c:type="gboolean"/>
+				</return-value>
+				<parameters>
+					<parameter name="self" transfer-ownership="none">
+						<type name="Entitas.IMatcher" c:type="EntitasIMatcher*"/>
+					</parameter>
+					<parameter name="entity" transfer-ownership="none">
+						<type name="Entitas.Entity" c:type="EntitasEntity*"/>
+					</parameter>
+				</parameters>
+			</callback>
+		</field>
+		<field name="toString">
+			<callback name="toString" c:type="toString">
+				<return-value transfer-ownership="full">
+					<type name="utf8" c:type="gchar*"/>
+				</return-value>
+				<parameters>
+					<parameter name="self" transfer-ownership="none">
+						<type name="Entitas.IMatcher" c:type="EntitasIMatcher*"/>
+					</parameter>
+				</parameters>
+			</callback>
+		</field>
+		<field name="get_id">
+			<callback name="get_id" c:type="get_id">
+				<return-value transfer-ownership="none">
+					<type name="utf8" c:type="const gchar*"/>
+				</return-value>
+				<parameters>
+					<parameter name="self" transfer-ownership="none">
+						<type name="Entitas.IMatcher" c:type="EntitasIMatcher*"/>
+					</parameter>
+				</parameters>
+			</callback>
+		</field>
+		<field name="get_indices">
+			<callback name="get_indices" c:type="get_indices">
+				<return-value transfer-ownership="none">
+					<array length="1">
+						<type name="gint" c:type="gint"/>
+					</array>
+				</return-value>
+				<parameters>
+					<parameter name="self" transfer-ownership="none">
+						<type name="Entitas.IMatcher" c:type="EntitasIMatcher*"/>
+					</parameter>
+					<parameter name="result_length1" direction="out" transfer-ownership="none">
+						<type name="gint" c:type="gint*"/>
+					</parameter>
+				</parameters>
+			</callback>
+		</field>
+	</record>
+	<interface name="ICompoundMatcher" c:type="EntitasICompoundMatcher" glib:type-name="EntitasICompoundMatcher" glib:get-type="entitas_icompound_matcher_get_type" glib:type-struct="ICompoundMatcherIface">
+		<prerequisite name="GObject.Object"/>
+		<property name="allOfIndices">
+			<array>
+				<type name="gint" c:type="gint"/>
+			</array>
+		</property>
+		<method name="get_allOfIndices" c:identifier="entitas_icompound_matcher_get_allOfIndices">
+			<return-value transfer-ownership="none">
+				<array length="0">
+					<type name="gint" c:type="gint"/>
+				</array>
+			</return-value>
+			<parameters>
+				<parameter name="result_length1" direction="out" transfer-ownership="none">
+					<type name="gint" c:type="gint*"/>
+				</parameter>
+			</parameters>
+		</method>
+		<virtual-method name="get_allOfIndices" invoker="get_allOfIndices">
+			<return-value transfer-ownership="none">
+				<array length="0">
+					<type name="gint" c:type="gint"/>
+				</array>
+			</return-value>
+			<parameters>
+				<parameter name="result_length1" direction="out" transfer-ownership="none">
+					<type name="gint" c:type="gint*"/>
+				</parameter>
+			</parameters>
+		</virtual-method>
+		<property name="anyOfIndices">
+			<array>
+				<type name="gint" c:type="gint"/>
+			</array>
+		</property>
+		<method name="get_anyOfIndices" c:identifier="entitas_icompound_matcher_get_anyOfIndices">
+			<return-value transfer-ownership="none">
+				<array length="0">
+					<type name="gint" c:type="gint"/>
+				</array>
+			</return-value>
+			<parameters>
+				<parameter name="result_length1" direction="out" transfer-ownership="none">
+					<type name="gint" c:type="gint*"/>
+				</parameter>
+			</parameters>
+		</method>
+		<virtual-method name="get_anyOfIndices" invoker="get_anyOfIndices">
+			<return-value transfer-ownership="none">
+				<array length="0">
+					<type name="gint" c:type="gint"/>
+				</array>
+			</return-value>
+			<parameters>
+				<parameter name="result_length1" direction="out" transfer-ownership="none">
+					<type name="gint" c:type="gint*"/>
+				</parameter>
+			</parameters>
+		</virtual-method>
+		<property name="noneOfIndices">
+			<array>
+				<type name="gint" c:type="gint"/>
+			</array>
+		</property>
+		<method name="get_noneOfIndices" c:identifier="entitas_icompound_matcher_get_noneOfIndices">
+			<return-value transfer-ownership="none">
+				<array length="0">
+					<type name="gint" c:type="gint"/>
+				</array>
+			</return-value>
+			<parameters>
+				<parameter name="result_length1" direction="out" transfer-ownership="none">
+					<type name="gint" c:type="gint*"/>
+				</parameter>
+			</parameters>
+		</method>
+		<virtual-method name="get_noneOfIndices" invoker="get_noneOfIndices">
+			<return-value transfer-ownership="none">
+				<array length="0">
+					<type name="gint" c:type="gint"/>
+				</array>
+			</return-value>
+			<parameters>
+				<parameter name="result_length1" direction="out" transfer-ownership="none">
+					<type name="gint" c:type="gint*"/>
+				</parameter>
+			</parameters>
+		</virtual-method>
+	</interface>
+	<record name="ICompoundMatcherIface" c:type="EntitasICompoundMatcherIface" glib:is-gtype-struct-for="ICompoundMatcher">
+		<field name="parent_iface">
+			<type name="GObject.TypeInterface" c:type="GTypeInterface"/>
+		</field>
+		<field name="get_allOfIndices">
+			<callback name="get_allOfIndices" c:type="get_allOfIndices">
+				<return-value transfer-ownership="none">
+					<array length="1">
+						<type name="gint" c:type="gint"/>
+					</array>
+				</return-value>
+				<parameters>
+					<parameter name="self" transfer-ownership="none">
+						<type name="Entitas.ICompoundMatcher" c:type="EntitasICompoundMatcher*"/>
+					</parameter>
+					<parameter name="result_length1" direction="out" transfer-ownership="none">
+						<type name="gint" c:type="gint*"/>
+					</parameter>
+				</parameters>
+			</callback>
+		</field>
+		<field name="get_anyOfIndices">
+			<callback name="get_anyOfIndices" c:type="get_anyOfIndices">
+				<return-value transfer-ownership="none">
+					<array length="1">
+						<type name="gint" c:type="gint"/>
+					</array>
+				</return-value>
+				<parameters>
+					<parameter name="self" transfer-ownership="none">
+						<type name="Entitas.ICompoundMatcher" c:type="EntitasICompoundMatcher*"/>
+					</parameter>
+					<parameter name="result_length1" direction="out" transfer-ownership="none">
+						<type name="gint" c:type="gint*"/>
+					</parameter>
+				</parameters>
+			</callback>
+		</field>
+		<field name="get_noneOfIndices">
+			<callback name="get_noneOfIndices" c:type="get_noneOfIndices">
+				<return-value transfer-ownership="none">
+					<array length="1">
+						<type name="gint" c:type="gint"/>
+					</array>
+				</return-value>
+				<parameters>
+					<parameter name="self" transfer-ownership="none">
+						<type name="Entitas.ICompoundMatcher" c:type="EntitasICompoundMatcher*"/>
+					</parameter>
+					<parameter name="result_length1" direction="out" transfer-ownership="none">
+						<type name="gint" c:type="gint*"/>
+					</parameter>
+				</parameters>
+			</callback>
+		</field>
+	</record>
+	<interface name="INoneOfMatcher" c:type="EntitasINoneOfMatcher" glib:type-name="EntitasINoneOfMatcher" glib:get-type="entitas_inone_of_matcher_get_type" glib:type-struct="INoneOfMatcherIface">
+		<prerequisite name="GObject.Object"/>
+	</interface>
+	<record name="INoneOfMatcherIface" c:type="EntitasINoneOfMatcherIface" glib:is-gtype-struct-for="INoneOfMatcher">
+		<field name="parent_iface">
+			<type name="GObject.TypeInterface" c:type="GTypeInterface"/>
+		</field>
+	</record>
+	<interface name="IAnyOfMatcher" c:type="EntitasIAnyOfMatcher" glib:type-name="EntitasIAnyOfMatcher" glib:get-type="entitas_iany_of_matcher_get_type" glib:type-struct="IAnyOfMatcherIface">
+		<prerequisite name="GObject.Object"/>
+		<method name="noneOf" c:identifier="entitas_iany_of_matcher_noneOf">
+			<return-value transfer-ownership="full">
+				<type name="Entitas.INoneOfMatcher" c:type="EntitasINoneOfMatcher*"/>
+			</return-value>
+			<parameters>
+				<parameter name="args" transfer-ownership="none">
+					<array length="1">
+						<type name="gint" c:type="gint"/>
+					</array>
+				</parameter>
+				<parameter name="args_length1" transfer-ownership="none">
+					<type name="gint" c:type="gint"/>
+				</parameter>
+			</parameters>
+		</method>
+		<virtual-method name="noneOf" invoker="noneOf">
+			<return-value transfer-ownership="full">
+				<type name="Entitas.INoneOfMatcher" c:type="EntitasINoneOfMatcher*"/>
+			</return-value>
+			<parameters>
+				<parameter name="args" transfer-ownership="none">
+					<array length="1">
+						<type name="gint" c:type="gint"/>
+					</array>
+				</parameter>
+				<parameter name="args_length1" transfer-ownership="none">
+					<type name="gint" c:type="gint"/>
+				</parameter>
+			</parameters>
+		</virtual-method>
+	</interface>
+	<record name="IAnyOfMatcherIface" c:type="EntitasIAnyOfMatcherIface" glib:is-gtype-struct-for="IAnyOfMatcher">
+		<field name="parent_iface">
+			<type name="GObject.TypeInterface" c:type="GTypeInterface"/>
+		</field>
+		<field name="noneOf">
+			<callback name="noneOf" c:type="noneOf">
+				<return-value transfer-ownership="full">
+					<type name="Entitas.INoneOfMatcher" c:type="EntitasINoneOfMatcher*"/>
+				</return-value>
+				<parameters>
+					<parameter name="self" transfer-ownership="none">
+						<type name="Entitas.IAnyOfMatcher" c:type="EntitasIAnyOfMatcher*"/>
+					</parameter>
+					<parameter name="args" transfer-ownership="none">
+						<array length="2">
+							<type name="gint" c:type="gint"/>
+						</array>
+					</parameter>
+					<parameter name="args_length1" transfer-ownership="none">
+						<type name="gint" c:type="gint"/>
+					</parameter>
+				</parameters>
+			</callback>
+		</field>
+	</record>
+	<interface name="IAllOfMatcher" c:type="EntitasIAllOfMatcher" glib:type-name="EntitasIAllOfMatcher" glib:get-type="entitas_iall_of_matcher_get_type" glib:type-struct="IAllOfMatcherIface">
+		<prerequisite name="GObject.Object"/>
+		<method name="anyOf" c:identifier="entitas_iall_of_matcher_anyOf">
+			<return-value transfer-ownership="full">
+				<type name="Entitas.IAnyOfMatcher" c:type="EntitasIAnyOfMatcher*"/>
+			</return-value>
+			<parameters>
+				<parameter name="args" transfer-ownership="none">
+					<array length="1">
+						<type name="gint" c:type="gint"/>
+					</array>
+				</parameter>
+				<parameter name="args_length1" transfer-ownership="none">
+					<type name="gint" c:type="gint"/>
+				</parameter>
+			</parameters>
+		</method>
+		<virtual-method name="anyOf" invoker="anyOf">
+			<return-value transfer-ownership="full">
+				<type name="Entitas.IAnyOfMatcher" c:type="EntitasIAnyOfMatcher*"/>
+			</return-value>
+			<parameters>
+				<parameter name="args" transfer-ownership="none">
+					<array length="1">
+						<type name="gint" c:type="gint"/>
+					</array>
+				</parameter>
+				<parameter name="args_length1" transfer-ownership="none">
+					<type name="gint" c:type="gint"/>
+				</parameter>
+			</parameters>
+		</virtual-method>
+		<method name="noneOf" c:identifier="entitas_iall_of_matcher_noneOf">
+			<return-value transfer-ownership="full">
+				<type name="Entitas.INoneOfMatcher" c:type="EntitasINoneOfMatcher*"/>
+			</return-value>
+			<parameters>
+				<parameter name="args" transfer-ownership="none">
+					<array length="1">
+						<type name="gint" c:type="gint"/>
+					</array>
+				</parameter>
+				<parameter name="args_length1" transfer-ownership="none">
+					<type name="gint" c:type="gint"/>
+				</parameter>
+			</parameters>
+		</method>
+		<virtual-method name="noneOf" invoker="noneOf">
+			<return-value transfer-ownership="full">
+				<type name="Entitas.INoneOfMatcher" c:type="EntitasINoneOfMatcher*"/>
+			</return-value>
+			<parameters>
+				<parameter name="args" transfer-ownership="none">
+					<array length="1">
+						<type name="gint" c:type="gint"/>
+					</array>
+				</parameter>
+				<parameter name="args_length1" transfer-ownership="none">
+					<type name="gint" c:type="gint"/>
+				</parameter>
+			</parameters>
+		</virtual-method>
+	</interface>
+	<record name="IAllOfMatcherIface" c:type="EntitasIAllOfMatcherIface" glib:is-gtype-struct-for="IAllOfMatcher">
+		<field name="parent_iface">
+			<type name="GObject.TypeInterface" c:type="GTypeInterface"/>
+		</field>
+		<field name="anyOf">
+			<callback name="anyOf" c:type="anyOf">
+				<return-value transfer-ownership="full">
+					<type name="Entitas.IAnyOfMatcher" c:type="EntitasIAnyOfMatcher*"/>
+				</return-value>
+				<parameters>
+					<parameter name="self" transfer-ownership="none">
+						<type name="Entitas.IAllOfMatcher" c:type="EntitasIAllOfMatcher*"/>
+					</parameter>
+					<parameter name="args" transfer-ownership="none">
+						<array length="2">
+							<type name="gint" c:type="gint"/>
+						</array>
+					</parameter>
+					<parameter name="args_length1" transfer-ownership="none">
+						<type name="gint" c:type="gint"/>
+					</parameter>
+				</parameters>
+			</callback>
+		</field>
+		<field name="noneOf">
+			<callback name="noneOf" c:type="noneOf">
+				<return-value transfer-ownership="full">
+					<type name="Entitas.INoneOfMatcher" c:type="EntitasINoneOfMatcher*"/>
+				</return-value>
+				<parameters>
+					<parameter name="self" transfer-ownership="none">
+						<type name="Entitas.IAllOfMatcher" c:type="EntitasIAllOfMatcher*"/>
+					</parameter>
+					<parameter name="args" transfer-ownership="none">
+						<array length="2">
+							<type name="gint" c:type="gint"/>
+						</array>
+					</parameter>
+					<parameter name="args_length1" transfer-ownership="none">
+						<type name="gint" c:type="gint"/>
+					</parameter>
+				</parameters>
+			</callback>
+		</field>
+	</record>
+	<interface name="ISystem" c:type="EntitasISystem" glib:type-name="EntitasISystem" glib:get-type="entitas_isystem_get_type" glib:type-struct="ISystemIface">
+		<prerequisite name="GObject.Object"/>
+	</interface>
+	<record name="ISystemIface" c:type="EntitasISystemIface" glib:is-gtype-struct-for="ISystem">
+		<field name="parent_iface">
+			<type name="GObject.TypeInterface" c:type="GTypeInterface"/>
+		</field>
+	</record>
+	<interface name="ISetWorld" c:type="EntitasISetWorld" glib:type-name="EntitasISetWorld" glib:get-type="entitas_iset_world_get_type" glib:type-struct="ISetWorldIface">
+		<prerequisite name="GObject.Object"/>
+		<method name="setWorld" c:identifier="entitas_iset_world_setWorld">
+			<return-value transfer-ownership="full">
+				<type name="none"/>
+			</return-value>
+			<parameters>
+				<parameter name="world" transfer-ownership="none">
+					<type name="Entitas.World" c:type="EntitasWorld*"/>
+				</parameter>
+			</parameters>
+		</method>
+		<virtual-method name="setWorld" invoker="setWorld">
+			<return-value transfer-ownership="full">
+				<type name="none"/>
+			</return-value>
+			<parameters>
+				<parameter name="world" transfer-ownership="none">
+					<type name="Entitas.World" c:type="EntitasWorld*"/>
+				</parameter>
+			</parameters>
+		</virtual-method>
+	</interface>
+	<record name="ISetWorldIface" c:type="EntitasISetWorldIface" glib:is-gtype-struct-for="ISetWorld">
+		<field name="parent_iface">
+			<type name="GObject.TypeInterface" c:type="GTypeInterface"/>
+		</field>
+		<field name="setWorld">
+			<callback name="setWorld" c:type="setWorld">
+				<return-value transfer-ownership="full">
+					<type name="none"/>
+				</return-value>
+				<parameters>
+					<parameter name="self" transfer-ownership="none">
+						<type name="Entitas.ISetWorld" c:type="EntitasISetWorld*"/>
+					</parameter>
+					<parameter name="world" transfer-ownership="none">
+						<type name="Entitas.World" c:type="EntitasWorld*"/>
+					</parameter>
+				</parameters>
+			</callback>
+		</field>
+	</record>
+	<interface name="IExecuteSystem" c:type="EntitasIExecuteSystem" glib:type-name="EntitasIExecuteSystem" glib:get-type="entitas_iexecute_system_get_type" glib:type-struct="IExecuteSystemIface">
+		<prerequisite name="GObject.Object"/>
+		<method name="execute" c:identifier="entitas_iexecute_system_execute">
+			<return-value transfer-ownership="full">
+				<type name="none"/>
+			</return-value>
+		</method>
+		<virtual-method name="execute" invoker="execute">
+			<return-value transfer-ownership="full">
+				<type name="none"/>
+			</return-value>
+		</virtual-method>
+	</interface>
+	<record name="IExecuteSystemIface" c:type="EntitasIExecuteSystemIface" glib:is-gtype-struct-for="IExecuteSystem">
+		<field name="parent_iface">
+			<type name="GObject.TypeInterface" c:type="GTypeInterface"/>
+		</field>
+		<field name="execute">
+			<callback name="execute" c:type="execute">
+				<return-value transfer-ownership="full">
+					<type name="none"/>
+				</return-value>
+				<parameters>
+					<parameter name="self" transfer-ownership="none">
+						<type name="Entitas.IExecuteSystem" c:type="EntitasIExecuteSystem*"/>
+					</parameter>
+				</parameters>
+			</callback>
+		</field>
+	</record>
+	<interface name="IInitializeSystem" c:type="EntitasIInitializeSystem" glib:type-name="EntitasIInitializeSystem" glib:get-type="entitas_iinitialize_system_get_type" glib:type-struct="IInitializeSystemIface">
+		<prerequisite name="GObject.Object"/>
+		<method name="initialize" c:identifier="entitas_iinitialize_system_initialize">
+			<return-value transfer-ownership="full">
+				<type name="none"/>
+			</return-value>
+		</method>
+		<virtual-method name="initialize" invoker="initialize">
+			<return-value transfer-ownership="full">
+				<type name="none"/>
+			</return-value>
+		</virtual-method>
+	</interface>
+	<record name="IInitializeSystemIface" c:type="EntitasIInitializeSystemIface" glib:is-gtype-struct-for="IInitializeSystem">
+		<field name="parent_iface">
+			<type name="GObject.TypeInterface" c:type="GTypeInterface"/>
+		</field>
+		<field name="initialize">
+			<callback name="initialize" c:type="initialize">
+				<return-value transfer-ownership="full">
+					<type name="none"/>
+				</return-value>
+				<parameters>
+					<parameter name="self" transfer-ownership="none">
+						<type name="Entitas.IInitializeSystem" c:type="EntitasIInitializeSystem*"/>
+					</parameter>
+				</parameters>
+			</callback>
+		</field>
+	</record>
+	<callback name="OnComponentReplaced" c:type="EntitasOnComponentReplaced">
+		<return-value transfer-ownership="none">
+			<type name="none"/>
+		</return-value>
+		<parameters>
+			<parameter name="e" transfer-ownership="none">
+				<type name="Entitas.Entity" c:type="EntitasEntity*"/>
+			</parameter>
+			<parameter name="index" transfer-ownership="none">
+				<type name="gint" c:type="gint"/>
+			</parameter>
+			<parameter name="component" transfer-ownership="none">
+				<type name="Entitas.IComponent" c:type="EntitasIComponent*"/>
+			</parameter>
+			<parameter name="replacement" transfer-ownership="none">
+				<type name="Entitas.IComponent" c:type="EntitasIComponent*"/>
+			</parameter>
+			<parameter name="user_data" transfer-ownership="none" closure="4">
+				<type name="gpointer" c:type="void*"/>
+			</parameter>
+		</parameters>
+	</callback>
+	<callback name="OnEntityChanged" c:type="EntitasOnEntityChanged">
+		<return-value transfer-ownership="none">
+			<type name="none"/>
+		</return-value>
+		<parameters>
+			<parameter name="e" transfer-ownership="none">
+				<type name="Entitas.Entity" c:type="EntitasEntity*"/>
+			</parameter>
+			<parameter name="index" transfer-ownership="none">
+				<type name="gint" c:type="gint"/>
+			</parameter>
+			<parameter name="component" transfer-ownership="none">
+				<type name="Entitas.IComponent" c:type="EntitasIComponent*"/>
+			</parameter>
+			<parameter name="user_data" transfer-ownership="none" closure="3">
+				<type name="gpointer" c:type="void*"/>
+			</parameter>
+		</parameters>
+	</callback>
+	<callback name="OnEntityReleased" c:type="EntitasOnEntityReleased">
+		<return-value transfer-ownership="none">
+			<type name="none"/>
+		</return-value>
+		<parameters>
+			<parameter name="e" transfer-ownership="none">
+				<type name="Entitas.Entity" c:type="EntitasEntity*"/>
+			</parameter>
+			<parameter name="user_data" transfer-ownership="none" closure="1">
+				<type name="gpointer" c:type="void*"/>
+			</parameter>
+		</parameters>
+	</callback>
+	<callback name="OnGroupChanged" c:type="EntitasOnGroupChanged">
+		<return-value transfer-ownership="none">
+			<type name="none"/>
+		</return-value>
+		<parameters>
+			<parameter name="g" transfer-ownership="none">
+				<type name="Entitas.Group" c:type="EntitasGroup*"/>
+			</parameter>
+			<parameter name="e" transfer-ownership="none">
+				<type name="Entitas.Entity" c:type="EntitasEntity*"/>
+			</parameter>
+			<parameter name="i" transfer-ownership="none">
+				<type name="gint" c:type="gint"/>
+			</parameter>
+			<parameter name="c" transfer-ownership="none">
+				<type name="Entitas.IComponent" c:type="EntitasIComponent*"/>
+			</parameter>
+			<parameter name="user_data" transfer-ownership="none" closure="4">
+				<type name="gpointer" c:type="void*"/>
+			</parameter>
+		</parameters>
+	</callback>
+	<callback name="OnGroupUpdated" c:type="EntitasOnGroupUpdated">
+		<return-value transfer-ownership="none">
+			<type name="none"/>
+		</return-value>
+		<parameters>
+			<parameter name="g" transfer-ownership="none">
+				<type name="Entitas.Group" c:type="EntitasGroup*"/>
+			</parameter>
+			<parameter name="e" transfer-ownership="none">
+				<type name="Entitas.Entity" c:type="EntitasEntity*"/>
+			</parameter>
+			<parameter name="i" transfer-ownership="none">
+				<type name="gint" c:type="gint"/>
+			</parameter>
+			<parameter name="c" transfer-ownership="none">
+				<type name="Entitas.IComponent" c:type="EntitasIComponent*"/>
+			</parameter>
+			<parameter name="u" transfer-ownership="none">
+				<type name="Entitas.IComponent" c:type="EntitasIComponent*"/>
+			</parameter>
+			<parameter name="user_data" transfer-ownership="none" closure="5">
+				<type name="gpointer" c:type="void*"/>
+			</parameter>
+		</parameters>
+	</callback>
+	<callback name="OnGroupsChanged" c:type="EntitasOnGroupsChanged">
+		<return-value transfer-ownership="none">
+			<type name="none"/>
+		</return-value>
+		<parameters>
+			<parameter name="w" transfer-ownership="none">
+				<type name="Entitas.World" c:type="EntitasWorld*"/>
+			</parameter>
+			<parameter name="g" transfer-ownership="none">
+				<type name="Entitas.Group" c:type="EntitasGroup*"/>
+			</parameter>
+			<parameter name="user_data" transfer-ownership="none" closure="2">
+				<type name="gpointer" c:type="void*"/>
+			</parameter>
+		</parameters>
+	</callback>
+	<callback name="OnWorldChanged" c:type="EntitasOnWorldChanged">
+		<return-value transfer-ownership="none">
+			<type name="none"/>
+		</return-value>
+		<parameters>
+			<parameter name="w" transfer-ownership="none">
+				<type name="Entitas.World" c:type="EntitasWorld*"/>
+			</parameter>
+			<parameter name="e" transfer-ownership="none">
+				<type name="Entitas.Entity" c:type="EntitasEntity*"/>
+			</parameter>
+			<parameter name="user_data" transfer-ownership="none" closure="2">
+				<type name="gpointer" c:type="void*"/>
+			</parameter>
+		</parameters>
+	</callback>
+	<constant name="POOL_SIZE" c:identifier="ENTITAS_POOL_SIZE" value="128">
+		<type name="gint" c:type="gint"/>
+	</constant>
+	<constant name="VERSION" c:identifier="ENTITAS_VERSION" value="0.0.1">
+		<type name="utf8" c:type="const gchar*"/>
+	</constant>
+</namespace>
+</repository>
