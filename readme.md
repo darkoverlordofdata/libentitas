@@ -3,6 +3,10 @@
 Lightweight ecs engine
 based on https://github.com/sschmid/Entitas-CSharp
 
+## status
+
+work in progress
+
 
 ## install
 
