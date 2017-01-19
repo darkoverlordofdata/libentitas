@@ -5,15 +5,15 @@ namespace Entitas
     class Group : Object
 
         /**
-         * Subscribe to Entity Addded events
+         * Subscribe to IEntity Addded events
          * @type entitas.utils.ISignal */
         prop readonly onEntityAdded : GroupChanged
         /**
-         * Subscribe to Entity Removed events
+         * Subscribe to IEntity Removed events
          * @type entitas.utils.ISignal */
         prop readonly onEntityRemoved : GroupChanged
         /**
-         * Subscribe to Entity Updated events
+         * Subscribe to IEntity Updated events
          * @type entitas.utils.ISignal */
         prop readonly onEntityUpdated : GroupUpdated
 
@@ -34,14 +34,14 @@ namespace Entitas
                 return _matcher
 
         _matcher            : IMatcher
-        _entities           : dict of string, Entity
-        _entitiesCache      : array of Entity
-        _singleEntityCache  : Entity
+        _entities           : dict of string, IEntity
+        _entitiesCache      : array of IEntity
+        _singleEntityCache  : IEntity
         _toStringCache      : string
 
         construct(matcher : IMatcher)
-            _entities = new dict of string, Entity
-            _entitiesCache = new array of Entity[0]
+            _entities = new dict of string, IEntity
+            _entitiesCache = new array of IEntity[0]
             _onEntityAdded = new GroupChanged()
             _onEntityRemoved = new GroupChanged()
             _onEntityUpdated = new GroupUpdated()
@@ -51,7 +51,7 @@ namespace Entitas
          * Handle adding and removing component from the entity without raising events
          * @param entity
          */
-        def handleEntitySilently(entity : Entity) raises EcsException
+        def handleEntitySilently(entity : IEntity) raises EcsException
             if _matcher.matches(entity)
                 addEntitySilently(entity)
             else
@@ -63,7 +63,7 @@ namespace Entitas
          * @param index
          * @param component
          */
-        def handleEntity(entity : Entity, index : int, component : IComponent) raises EcsException
+        def handleEntity(entity : IEntity, index : int, component : IComponent) raises EcsException
             if _matcher.matches(entity)
                 addEntity(entity, index, component)
             else
@@ -76,7 +76,7 @@ namespace Entitas
          * @param previousComponent
          * @param newComponent
          */
-        def updateEntity(entity : Entity, index : int, previousComponent : IComponent, newComponent : IComponent)
+        def updateEntity(entity : IEntity, index : int, previousComponent : IComponent, newComponent : IComponent)
             if _entities.has_key(entity.id)
                 _onEntityRemoved.dispatch(this, entity, index, previousComponent)
                 _onEntityAdded.dispatch(this, entity, index, newComponent)
@@ -86,7 +86,7 @@ namespace Entitas
          * Add entity without raising events
          * @param entity
          */
-        def addEntitySilently(entity : Entity)
+        def addEntitySilently(entity : IEntity)
             if !_entities.has_key(entity.id)
                 _entities[entity.id] = entity
                 _entitiesCache = null
@@ -99,7 +99,7 @@ namespace Entitas
          * @param index
          * @param component
          */
-        def addEntity(entity : Entity, index : int, component : IComponent)
+        def addEntity(entity : IEntity, index : int, component : IComponent)
             if !_entities.has_key(entity.id)
                 _entities[entity.id] = entity
                 _entitiesCache = null
@@ -111,7 +111,7 @@ namespace Entitas
          * Remove entity without raising events
          * @param entity
          */
-        def removeEntitySilently(entity : Entity) raises EcsException
+        def removeEntitySilently(entity : IEntity) raises EcsException
             if _entities.has_key(entity.id)
                 _entities.unset(entity.id)
                 _entitiesCache = null
@@ -124,7 +124,7 @@ namespace Entitas
          * @param index
          * @param component
          */
-        def removeEntity(entity : Entity, index : int, component : IComponent) raises EcsException
+        def removeEntity(entity : IEntity, index : int, component : IComponent) raises EcsException
             if _entities.has_key(entity.id)
                 _entities.unset(entity.id)
                 _entitiesCache = null
@@ -138,17 +138,17 @@ namespace Entitas
          * @param entity
          * @returns boolean
          */
-        def containsEntity(entity : Entity) : bool
+        def containsEntity(entity : IEntity) : bool
             return _entities.has_key(entity.id)
 
         /**
          * Get a list of the entities in this group
          *
-         * @returns Array<entitas.Entity>
+         * @returns Array<entitas.IEntity>
          */
-        def getEntities() : array of Entity
+        def getEntities() : array of IEntity
             if _entitiesCache.length == 0
-                _entitiesCache = new array of Entity[_entities.values.size]
+                _entitiesCache = new array of IEntity[_entities.values.size]
                 var i = 0
                 for var e in _entities.values
                     _entitiesCache[i++] = e
@@ -159,9 +159,9 @@ namespace Entitas
          * Gets an entity singleton.
          * If a group has more than 1 entity, this is an error condition.
          *
-         * @returns entitas.Entity
+         * @returns entitas.IEntity
          */
-        def getSingleEntity() : unowned Entity? raises EcsException
+        def getSingleEntity() : unowned IEntity? raises EcsException
             if _singleEntityCache == null
                 var values = _entities.values
                 var c = values.size

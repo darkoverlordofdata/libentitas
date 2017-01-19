@@ -2,7 +2,7 @@
 
 namespace Entitas
 
-    delegate OnEntityChanged(e : Entity, index : int, component : IComponent)
+    delegate OnEntityChanged(e : IEntity, index : int, component : IComponent)
 
     class EntityChanged : Object
 
@@ -25,6 +25,6 @@ namespace Entitas
         def clear()
             _listeners = new list of Listener
 
-        def dispatch(e : Entity, index : int, component : IComponent)
+        def dispatch(e : IEntity, index : int, component : IComponent)
             for var listener in _listeners
                 listener.event(e, index, component)

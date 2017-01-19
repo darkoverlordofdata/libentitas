@@ -2,7 +2,7 @@ namespace Entitas {
     public interface IMatcher : Object {
       public abstract string id {get;}
       public abstract int[] indices {get;}
-      public abstract bool matches(Entity entity);
+      public abstract bool matches(IEntity entity);
       public abstract string toString();
     }
 

@@ -2,7 +2,7 @@
 
 namespace Entitas
 
-    delegate OnGroupChanged(g : Group, e : Entity, i : int, c : IComponent)
+    delegate OnGroupChanged(g : Group, e : IEntity, i : int, c : IComponent)
 
     class GroupChanged : Object
 
@@ -25,6 +25,6 @@ namespace Entitas
         def clear()
             _listeners = new list of Listener
 
-        def dispatch(g : Group, e : Entity, i : int, c : IComponent)
+        def dispatch(g : Group, e : IEntity, i : int, c : IComponent)
             for var listener in _listeners
                 listener.event(g, e, i, c)

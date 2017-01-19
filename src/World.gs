@@ -1,7 +1,7 @@
-[indent=4]
 /**
  * World
  */
+[indent=4]
 uses Gee
 
 namespace Entitas
@@ -59,17 +59,17 @@ namespace Entitas
                 return _retainedEntities.size
 
         /**
-         * Subscribe to Entity Created Event
+         * Subscribe to IEntity Created Event
          * @type entitas.utils.ISignal */
         prop readonly onEntityCreated : WorldChanged
 
         /**
-         * Subscribe to Entity Will Be Destroyed Event
+         * Subscribe to IEntity Will Be Destroyed Event
          * @type entitas.utils.ISignal */
         prop readonly onEntityWillBeDestroyed : WorldChanged
 
         /**
-         * Subscribe to Entity Destroyed Event
+         * Subscribe to IEntity Destroyed Event
          * @type entitas.utils.ISignal */
         prop readonly onEntityDestroyed : WorldChanged
 
@@ -79,7 +79,7 @@ namespace Entitas
         prop readonly onGroupCreated : GroupsChanged
 
         /**
-         * Entity name for debugging
+         * IEntity name for debugging
          * @type string */
         prop readonly name : string
 
@@ -87,14 +87,16 @@ namespace Entitas
         _totalComponents    : int = 0
         _creationIndex      : int = 0
         _groups             : dict of string, Group
-        _entities           : dict of string, Entity
-        _retainedEntities   : dict of string, Entity
-        _reusableEntities   : GLib.Queue of Entity
+        _entities           : dict of string, IEntity
+        _retainedEntities   : dict of string, IEntity
+        _reusableEntities   : GLib.Queue of IEntity
         _groupsForIndex     : array of ArrayList of Group
         _componentsEnum     : array of string
-        _entitiesCache      : array of Entity
+        _entitiesCache      : array of IEntity
         _initializeSystems  : array of IInitializeSystem
         _executeSystems     : array of IExecuteSystem
+        _entityFactory      : IEntityFactory
+
         /**
          * @constructor
          * @param Object components
@@ -116,26 +118,36 @@ namespace Entitas
             _creationIndex = startCreationIndex
             _groupsForIndex = new array of ArrayList of Group[components.length]
 
-            _reusableEntities = new GLib.Queue of Entity
-            _retainedEntities = new dict of string, Entity
-            _entitiesCache = new array of Entity[0]
-            _entities = new dict of string, Entity
+            _reusableEntities = new GLib.Queue of IEntity
+            _retainedEntities = new dict of string, IEntity
+            _entitiesCache = new array of IEntity[0]
+            _entities = new dict of string, IEntity
             _groups = new dict of string, Group
             _initializeSystems = new array of IInitializeSystem[0]
             _executeSystems = new array of IExecuteSystem[0]
 
 
+        def setEntityFactory(entityFactory: IEntityFactory)
+            _entityFactory = entityFactory
+
+        def private newEntity(componentsEnum : array of string, totalComponents : int): IEntity
+            if _entityFactory == null
+                return (IEntity)(new Entity(_componentsEnum, _totalComponents))
+            else
+                return _entityFactory.createEntity(_componentsEnum, _totalComponents)
+
         /**
          * Create a new entity
          * @param string name
-         * @returns entitas.Entity
+         * @returns entitas.IEntity
          */
-        def createEntity(name : string) : Entity
-            var entity = _reusableEntities.length > 0 ? _reusableEntities.pop_head() : new Entity(_componentsEnum, _totalComponents)
+        def createEntity(name : string) : IEntity
+            // var entity = _reusableEntities.length > 0 ? _reusableEntities.pop_head() : (IEntity)(new Entity(_componentsEnum, _totalComponents))
+            var entity = _reusableEntities.length > 0 ? _reusableEntities.pop_head() : newEntity(_componentsEnum, _totalComponents)
             //entity.initialize(name, UUID.randomUUID(), _creationIndex++)
             entity.initialize(name, uidgen(), _creationIndex++)
             _entities[entity.id] = entity
-            _entitiesCache = new array of Entity[0]
+            _entitiesCache = new array of IEntity[0]
             entity.onComponentAdded.add(updateGroupsComponentAddedOrRemoved)
             entity.onComponentRemoved.add(updateGroupsComponentAddedOrRemoved)
             entity.onComponentReplaced.add(updateGroupsComponentReplaced)
@@ -147,14 +159,14 @@ namespace Entitas
 
         /**
          * Destroy an entity
-         * @param entitas.Entity entity
+         * @param entitas.IEntity entity
          */
-        def destroyEntity(entity : Entity) raises EcsException
+        def destroyEntity(entity : IEntity) raises EcsException
             if !_entities.has_key(entity.id)
                 raise new EcsException.WorldDoesNotContainEntity("Could not destroy entity!")
 
             _entities.unset(entity.id)
-            _entitiesCache = new array of Entity[0]
+            _entitiesCache = new array of IEntity[0]
             _onEntityWillBeDestroyed.dispatch(this, entity)
             entity.destroy()
 
@@ -179,24 +191,24 @@ namespace Entitas
         /**
          * Check if pool has this entity
          *
-         * @param entitas.Entity entity
+         * @param entitas.IEntity entity
          * @returns boolean
          */
-        def hasEntity(entity : Entity) : bool
+        def hasEntity(entity : IEntity) : bool
             return _entities.has_key(entity.id)
 
         /**
          * Gets all of the entities
          *
-         * @returns Array<entitas.Entity>
+         * @returns Array<entitas.IEntity>
          */
-        def getEntities(matcher : IMatcher?=null) : array of Entity
+        def getEntities(matcher : IMatcher?=null) : array of IEntity
             if matcher != null
                 /** PoolExtension::getEntities */
                 return getGroup(matcher).getEntities()
              else
                 if _entitiesCache.length == 0
-                    _entitiesCache = new array of Entity[_entitiesCache.length]
+                    _entitiesCache = new array of IEntity[_entitiesCache.length]
                     for e in _entities.values
                         _entitiesCache+= e
                 return _entitiesCache
@@ -266,11 +278,11 @@ namespace Entitas
 
 
         /**
-         * @param entitas.Entity entity
+         * @param entitas.IEntity entity
          * @param number index
          * @param entitas.IComponent component
          */
-        def updateGroupsComponentAddedOrRemoved(entity : Entity, index : int, component : IComponent)
+        def updateGroupsComponentAddedOrRemoved(entity : IEntity, index : int, component : IComponent)
             if index+1 <= _groupsForIndex.length
                 var groups = _groupsForIndex[index]
                 if groups != null
@@ -282,12 +294,12 @@ namespace Entitas
                         assert(false)
 
         /**
-         * @param entitas.Entity entity
+         * @param entitas.IEntity entity
          * @param number index
          * @param entitas.IComponent previousComponent
          * @param entitas.IComponent newComponent
          */
-        def updateGroupsComponentReplaced(entity : Entity, index : int, previousComponent : IComponent, newComponent : IComponent)
+        def updateGroupsComponentReplaced(entity : IEntity, index : int, previousComponent : IComponent, newComponent : IComponent)
             if index+1 <= _groupsForIndex.length
                 var groups = _groupsForIndex[index]
                 if groups != null
@@ -295,9 +307,9 @@ namespace Entitas
                         group.updateEntity(entity, index, previousComponent, newComponent)
 
         /**
-         * @param entitas.Entity entity
+         * @param entitas.IEntity entity
          */
-        def onEntityReleased(entity : Entity)
+        def onEntityReleased(entity : IEntity)
             if entity.isEnabled
                 /*raise new Exception.EntityIsNotDestroyedException("Cannot release entity.")*/
                 return

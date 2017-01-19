@@ -19,6 +19,7 @@ vala_check_package: gee-0.8
 *vala_source: Events/WorldChanged.gs
 *vala_source: Exceptions.gs
 *vala_source: Group.gs
+*vala_source: IEntity.gs
 *vala_source: Interfaces/IComponent.vala
 *vala_source: Interfaces/IMatcher.vala
 *vala_source: Interfaces/ISystem.vala
@@ -40,6 +41,7 @@ vala_check_package: gee-0.8
 *translate: genie src/Events/WorldChanged.gs
 *translate: genie src/Exceptions.gs
 *translate: genie src/Group.gs
+*translate: genie src/IEntity.gs
 *translate: vala src/Interfaces/IComponent.vala
 *translate: vala src/Interfaces/IMatcher.vala
 *translate: vala src/Interfaces/ISystem.vala

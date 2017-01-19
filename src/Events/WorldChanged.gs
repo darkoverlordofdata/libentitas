@@ -2,7 +2,7 @@
 
 namespace Entitas
 
-    delegate OnWorldChanged(w : World, e : Entity)
+    delegate OnWorldChanged(w : World, e : IEntity)
 
     class WorldChanged : Object
 
@@ -25,6 +25,6 @@ namespace Entitas
         def clear()
             _listeners = new list of Listener
 
-        def dispatch(w : World, e : Entity)
+        def dispatch(w : World, e : IEntity)
             for var listener in _listeners
                 listener.event(w, e)

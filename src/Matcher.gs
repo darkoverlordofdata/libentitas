@@ -82,10 +82,10 @@ namespace Entitas
 
         /**
          * Check if the entity matches this matcher
-         * @param entitas.Entity entity
+         * @param entitas.IEntity entity
          * @returns boolean
          */
-        def matches(entity : Entity) : bool
+        def matches(entity : IEntity) : bool
             var matchesAllOf = _allOfIndices == null ? true : entity.hasComponents(_allOfIndices)
             var matchesAnyOf = _anyOfIndices == null ? true : entity.hasAnyComponent(_anyOfIndices)
             var matchesNoneOf = _noneOfIndices == null ? true : !entity.hasAnyComponent(_noneOfIndices)

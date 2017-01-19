@@ -2,7 +2,7 @@
 
 namespace Entitas
 
-    delegate OnEntityReleased(e : Entity)
+    delegate OnEntityReleased(e : IEntity)
     
     class EntityReleased : Object
 
@@ -25,6 +25,6 @@ namespace Entitas
         def clear()
             _listeners = new list of Listener
 
-        def dispatch(e : Entity)
+        def dispatch(e : IEntity)
             for var listener in _listeners
                 listener.event(e)

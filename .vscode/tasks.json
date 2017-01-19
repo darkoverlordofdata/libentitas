@@ -20,14 +20,6 @@
         {
             "taskName": "update",
             "args": ["autovala update && cd install && cmake .."]
-        },
-        {
-            "taskName": "commit",
-            "args": ["bzr add && bzr commit -m 'daily'"]
-        },
-        {
-            "taskName": "push",
-            "args": ["bzr push lp:~darkoverlordofdata/+junk/${workspaceRootFolderName}"]
         }
     ]
 }

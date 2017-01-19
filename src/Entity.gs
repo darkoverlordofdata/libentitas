@@ -1,12 +1,12 @@
-[indent=4]
 /**
  * Base class for Entitities
  */
+[indent=4]
 namespace Entitas
 
     const POOL_SIZE : int = 128
 
-    class Entity : Object
+    class Entity : Object implements IEntity
 
         /**
          * @static
@@ -16,16 +16,16 @@ namespace Entitas
         /**
          * A unique sequential index number assigned to each entity at creation
          * @type number
-         * @name entitas.Entity#creationIndex */
+         * @name entitas.IEntity#creationIndex */
         prop readonly creationIndex : int
 
         /**
-         * Entity name
+         * IEntity name
          * @type string */
         prop readonly name : string
 
         /**
-         *    Entity id
+         *    IEntity id
          * @type string */
         prop readonly id : string
 
@@ -35,7 +35,7 @@ namespace Entitas
 
 
         /**
-         * Subscribe to Entity Released Event
+         * Subscribe to IEntity Released Event
          * @type entitas.ISignal */
         prop readonly onEntityReleased : EntityReleased
 
@@ -122,9 +122,9 @@ namespace Entitas
           *
           * @param number index
           * @param entitas.IComponent component
-          * @returns entitas.Entity
+          * @returns entitas.IEntity
           */
-        def addComponent(index : int, component : IComponent) : Entity raises EcsException
+        def addComponent(index : int, component : IComponent) : IEntity raises EcsException
             if !_isEnabled
                 raise new EcsException.EntityIsNotEnabled("Cannot add component!")
 
@@ -135,16 +135,16 @@ namespace Entitas
             _componentsCache = null
             _indiceCache = null
             _toStringCache = null
-            _onComponentAdded.dispatch(this, index, component)
-            return this
+            _onComponentAdded.dispatch((IEntity)this, index, component)
+            return (IEntity)this
 
         /**
          * RemoveComponent
          *
          * @param number index
-         * @returns entitas.Entity
+         * @returns entitas.IEntity
          */
-        def removeComponent(index : int) : Entity raises EcsException
+        def removeComponent(index : int) : IEntity raises EcsException
             if !_isEnabled
                 raise new EcsException.EntityIsNotEnabled("Cannot remove component!")
 
@@ -152,16 +152,16 @@ namespace Entitas
                 raise new EcsException.EntityDoesNotHaveComponent("Cannot remove %s at index %d", _componentsEnum[index], index)
 
             _replaceComponent(index, null)
-            return this
+            return (IEntity)this
 
         /**
          * ReplaceComponent
          *
          * @param number index
          * @param entitas.IComponent component
-         * @returns entitas.Entity
+         * @returns entitas.IEntity
          */
-        def replaceComponent(index : int, component : IComponent) : Entity raises EcsException
+        def replaceComponent(index : int, component : IComponent) : IEntity raises EcsException
             if !_isEnabled
                 raise new EcsException.EntityIsNotEnabled("Cannot replace component!")
 
@@ -170,13 +170,13 @@ namespace Entitas
              else if component != null
                 addComponent(index, component)
 
-            return this
+            return (IEntity)this
 
 
         def _replaceComponent(index : int, replacement : IComponent?)
             var previousComponent = _components[ic+index]
             if previousComponent == replacement
-                _onComponentReplaced.dispatch(this, index, previousComponent, replacement)
+                _onComponentReplaced.dispatch((IEntity)this, index, previousComponent, replacement)
              else
                 _components[ic+index] = replacement
                 _componentsCache = null
@@ -184,10 +184,10 @@ namespace Entitas
                     _components[ic+index] = null
                     _indiceCache = null
                     _toStringCache = null
-                    _onComponentRemoved.dispatch(this, index, previousComponent)
+                    _onComponentRemoved.dispatch((IEntity)this, index, previousComponent)
 
                  else
-                    _onComponentReplaced.dispatch(this, index, previousComponent, replacement)
+                    _onComponentReplaced.dispatch((IEntity)this, index, previousComponent, replacement)
 
         /**
          * GetComponent
@@ -311,11 +311,11 @@ namespace Entitas
         /**
          * AddRef
          *
-         * @returns entitas.Entity
+         * @returns entitas.IEntity
          */
-        def addRef() : Entity
+        def addRef() : IEntity
             _refCount += 1
-            return this
+            return (IEntity)this
 
 
         /**
@@ -325,7 +325,7 @@ namespace Entitas
         def release() raises EcsException
             _refCount -= 1
             if _refCount == 0
-                _onEntityReleased.dispatch(this)
+                _onEntityReleased.dispatch((IEntity)this)
             else if _refCount < 0
                 raise new EcsException.EntityIsAlreadyReleased("%s:%s", id, name)
 

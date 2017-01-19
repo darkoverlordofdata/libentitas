@@ -2,7 +2,7 @@
 
 namespace Entitas
 
-    delegate OnComponentReplaced(e : Entity, index : int, component : IComponent, replacement : IComponent)
+    delegate OnComponentReplaced(e : IEntity, index : int, component : IComponent, replacement : IComponent)
 
     class ComponentReplaced : Object
 
@@ -25,6 +25,6 @@ namespace Entitas
         def clear()
             _listeners = new list of Listener
 
-        def dispatch(e : Entity, index : int, component : IComponent, replacement : IComponent)
+        def dispatch(e : IEntity, index : int, component : IComponent, replacement : IComponent)
             for var listener in _listeners
                 listener.event(e, index, component, replacement)

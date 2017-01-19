@@ -8,6 +8,7 @@ src/Events/GroupsChanged.gs
 src/Events/WorldChanged.gs
 src/Exceptions.gs
 src/Group.gs
+src/IEntity.gs
 src/Interfaces/IComponent.vala
 src/Interfaces/IMatcher.vala
 src/Interfaces/ISystem.vala
