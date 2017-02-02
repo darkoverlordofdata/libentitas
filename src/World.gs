@@ -127,8 +127,9 @@ namespace Entitas
             _executeSystems = new array of IExecuteSystem[0]
 
 
-        def setEntityFactory(entityFactory: IEntityFactory)
+        def setEntityFactory(entityFactory: IEntityFactory): World
             _entityFactory = entityFactory
+            return this
 
         def private newEntity(componentsEnum : array of string, totalComponents : int): IEntity
             if _entityFactory == null
